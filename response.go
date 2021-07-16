@@ -1,7 +1,7 @@
 package corp
 
 type Response struct {
-	LastUpdateDate string        `xml:"lastUpdateDate"`
+	LastUpdateDate *Date         `xml:"lastUpdateDate"`
 	Count          uint32        `xml:"count"`
 	DivideNumber   uint16        `xml:"divideNumber"`
 	DevideSize     uint16        `xml:"divideSize"`
@@ -13,8 +13,8 @@ type Corporation struct {
 	CorporateNumber          uint64 `xml:"corporateNumber"`
 	Process                  string `xml:"process"`
 	Correct                  uint8  `xml:"correct"`
-	UpdateDate               string `xml:"updateDate"`
-	ChangeDate               string `xml:"ChangeDate"`
+	UpdateDate               *Date  `xml:"updateDate"`
+	ChangeDate               *Date  `xml:"ChangeDate"`
 	Name                     string `xml:"name"`
 	NameImageId              string `xml:"nameImageId"`
 	Kind                     uint16 `xml:"kind"`
@@ -27,11 +27,11 @@ type Corporation struct {
 	PostCode                 string `xml:"postCode"`
 	AddressOutside           string `xml:"addressOutside"`
 	AddressOutsideImageId    string `xml:"addressOutsideImageId"`
-	CloseDate                string `xml:"closeDate"`
+	CloseDate                *Date  `xml:"closeDate"`
 	CloseCause               string `xml:"closeCause"`
 	SuccessorCorporateNumber uint64 `xml:"successorCorporateNumber"`
 	ChangeCause              string `xml:"changeCause"`
-	AssignmentDate           string `xml:"assignmentDate"`
+	AssignmentDate           *Date  `xml:"assignmentDate"`
 	Latest                   bool   `xml:"latest"`
 	EnName                   string `xml:"enName"`
 	EnPrefectureName         string `xml:"enPrefectureName"`
