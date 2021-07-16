@@ -1,3 +1,3 @@
-module fillin-inc.com/go-corporate-number
+module fillin-inc.com/go-corp
 
 go 1.16
