@@ -13,3 +13,8 @@ const NUMBER_END_POINT = "num"
 func requestURL(endPoint string) string {
 	return fmt.Sprintf("%s/%d/%s", URL, API_VER, endPoint)
 }
+
+type URLBuilder interface {
+	Validate() error
+	BuildURL() (string, error)
+}
