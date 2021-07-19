@@ -11,18 +11,18 @@ import (
 // 法人番号検索
 type Number struct {
 	// アプリケーションID
-	Id string `validate:"required" url:"id"`
+	ID string `validate:"required" url:"id"`
 	// 法人番号
-	Numbers []uint64 `validate:"required,min=1" url:"number" del:","`
+	Numbers []uint64 `validate:"min=1,max=10" url:"number" del:","`
 	// 応答形式
 	ResponseType string `validate:"required,eq=12" url:"type"`
 	// 変更履歴要否
-	History bool `validate:"required" url:"history,int"`
+	History bool `url:"history,int"`
 }
 
-func NewNumber(appId string, numbers []uint64, history bool) *Number {
+func NewNumber(appID string, numbers []uint64, history bool) *Number {
 	return &Number{
-		appId,
+		appID,
 		numbers,
 		RESPONSE_TYPE,
 		history,
