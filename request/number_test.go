@@ -23,41 +23,27 @@ func TestNewNumber(t *testing.T) {
 	}
 }
 
-func TestQueryString(t *testing.T) {
+func TestValidateWithoutError(t *testing.T) {
 	appId := "ABCDEFG"
 	nums := []uint64{1234, 5678}
 	history := true
 
-	number := &Number{appId, nums, RESPONSE_TYPE, history}
-	queryStr, _ := number.queryString()
-	query, _ := url.ParseQuery(queryStr)
-
-	if query["id"][0] != appId {
-		t.Errorf("id の値が異なります。result:%v expected:%v", query["id"][0], appId)
-	}
-
-	if query["number"][0] != "1234,5678" {
-		t.Errorf("number の値が異なります。result:%v expected:%v", query["number"][0], "1234,5678")
-	}
-
-	if query["type"][0] != RESPONSE_TYPE {
-		t.Errorf("type の値が異なります。result:%v expected:%v", query["type"], RESPONSE_TYPE)
-	}
-
-	if query["history"][0] != "1" {
-		t.Errorf("history の値が異なります。result:%v expected:%v", query["history"], "1")
+	number := NewNumber(appId, nums, history)
+	err := number.Validate()
+	if err != nil {
+		t.Errorf("バリデーションでエラーが発生しました。%v", err)
 	}
 }
 
-func TestQueryStringReturnError(t *testing.T) {
+func TestValidateWithError(t *testing.T) {
 	appId := ""
 	nums := []uint64{1234, 5678}
 	history := true
 
-	number := &Number{appId, nums, RESPONSE_TYPE, history}
-	_, err := number.queryString()
-	if err != nil {
-		t.Errorf("queryString がエラーを返しませんでした。")
+	number := NewNumber(appId, nums, history)
+	err := number.Validate()
+	if err == nil {
+		t.Errorf("バリデーションでエラーが発生しませんでした。%v", err)
 	}
 }
 

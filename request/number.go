@@ -1,6 +1,9 @@
 package request
 
 import (
+	"fmt"
+	"net/url"
+
 	"github.com/go-playground/validator"
 	"github.com/google/go-querystring/query"
 )
@@ -26,24 +29,22 @@ func NewNumber(appId string, numbers []uint64, history bool) *Number {
 	}
 }
 
-func (n Number) queryString() (string, error) {
-	v, err := query.Values(n)
-	if err != nil {
-		return "", err
-	}
-	return v.Encode(), err
+func (n Number) Validate() error {
+	validator := validator.New()
+	return validator.Struct(n)
 }
 
 func (n Number) BuildURL() (string, error) {
-	validator := validator.New()
-	err := validator.Struct(n)
+	err := n.Validate()
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("validation problem: %w", err)
 	}
 
-	q, err := n.queryString()
+	var q url.Values
+	q, err = query.Values(n)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("failed to convert query string: %w", err)
 	}
-	return requestURL(NUMBER_END_POINT) + "?" + q, nil
+
+	return requestURL(NUMBER_END_POINT) + "?" + q.Encode(), nil
 }
