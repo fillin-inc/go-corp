@@ -27,7 +27,7 @@ func TestNewNumber(t *testing.T) {
 	}
 }
 
-func TestValidate(t *testing.T) {
+func TestNumberValidate(t *testing.T) {
 	n := Number{
 		ID:           "ABCDEFG",
 		Numbers:      []uint64{1234, 5678},
@@ -40,7 +40,7 @@ func TestValidate(t *testing.T) {
 	}
 }
 
-func TestValidateReturnErrorWhenAppIDIsEmpty(t *testing.T) {
+func TestNumberValidateReturnErrorWhenAppIDIsEmpty(t *testing.T) {
 	n := Number{
 		ID:           "",
 		Numbers:      []uint64{1234, 5678},
@@ -59,7 +59,7 @@ func TestValidateReturnErrorWhenAppIDIsEmpty(t *testing.T) {
 	}
 }
 
-func TestValidateReturnErrorWhenNumbersIsEmpty(t *testing.T) {
+func TestNumberValidateReturnErrorWhenNumbersIsEmpty(t *testing.T) {
 	n := Number{
 		ID:           "ABCDEFG",
 		Numbers:      []uint64{},
@@ -73,7 +73,7 @@ func TestValidateReturnErrorWhenNumbersIsEmpty(t *testing.T) {
 	}
 }
 
-func TestValidateReturnNoErrorWhenNumbersIs1(t *testing.T) {
+func TestNumberValidateReturnNoErrorWhenNumbersIs1(t *testing.T) {
 	n := Number{
 		ID:           "ABCDEFG",
 		Numbers:      []uint64{1234},
@@ -86,7 +86,7 @@ func TestValidateReturnNoErrorWhenNumbersIs1(t *testing.T) {
 	}
 }
 
-func TestValidateReturnNoErrorWhenNumbersIs10(t *testing.T) {
+func TestNumberValidateReturnNoErrorWhenNumbersIs10(t *testing.T) {
 	n := Number{
 		ID:           "ABCDEFG",
 		Numbers:      []uint64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
@@ -99,7 +99,7 @@ func TestValidateReturnNoErrorWhenNumbersIs10(t *testing.T) {
 	}
 }
 
-func TestValidateReturnErrorWhenNumbersIs11(t *testing.T) {
+func TestNumberValidateReturnErrorWhenNumbersIs11(t *testing.T) {
 	n := Number{
 		ID:           "ABCDEFG",
 		Numbers:      []uint64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11},
@@ -113,7 +113,7 @@ func TestValidateReturnErrorWhenNumbersIs11(t *testing.T) {
 	}
 }
 
-func TestValidateReturnErrorWhenResponseTypeIsEmpty(t *testing.T) {
+func TestNumberValidateReturnErrorWhenResponseTypeIsEmpty(t *testing.T) {
 	n := Number{
 		ID:           "ABCDEFG",
 		Numbers:      []uint64{1234},
@@ -127,7 +127,7 @@ func TestValidateReturnErrorWhenResponseTypeIsEmpty(t *testing.T) {
 	}
 }
 
-func TestValidateReturnErrorWhenResponseTypeIsInvalid(t *testing.T) {
+func TestNumberValidateReturnErrorWhenResponseTypeIsInvalid(t *testing.T) {
 	n := Number{
 		ID:           "ABCDEFG",
 		Numbers:      []uint64{1234},
