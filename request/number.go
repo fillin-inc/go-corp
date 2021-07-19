@@ -34,17 +34,17 @@ func (n Number) Validate() error {
 	return validator.Struct(n)
 }
 
-func (n Number) BuildURL() (string, error) {
-	err := n.Validate()
+func (n Number) URL() (url.URL, error) {
+	var u url.URL
+	q, err := query.Values(n)
 	if err != nil {
-		return "", fmt.Errorf("validation problem: %w", err)
+		return u, fmt.Errorf("failed to convert query string: %w", err)
 	}
 
-	var q url.Values
-	q, err = query.Values(n)
-	if err != nil {
-		return "", fmt.Errorf("failed to convert query string: %w", err)
-	}
-
-	return requestURL(NUMBER_END_POINT) + "?" + q.Encode(), nil
+	return url.URL{
+		Scheme:   "https",
+		Host:     HOST,
+		Path:     fmt.Sprintf("/%d/num", API_VER),
+		RawQuery: q.Encode(),
+	}, nil
 }

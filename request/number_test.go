@@ -1,10 +1,7 @@
 package request
 
 import (
-	"fmt"
-	"net/url"
 	"reflect"
-	"strings"
 	"testing"
 )
 
@@ -47,38 +44,33 @@ func TestValidateWithError(t *testing.T) {
 	}
 }
 
-func TestBuildURL(t *testing.T) {
+func TestURL(t *testing.T) {
 	appId := "ABCDEFG"
 	nums := []uint64{1234, 5678}
 	history := true
 	number := &Number{appId, nums, RESPONSE_TYPE, history}
 
-	ret, _ := number.BuildURL()
-	u, _ := url.Parse(ret)
+	u, _ := number.URL()
 
-	if !strings.HasPrefix(ret, URL) {
-		t.Errorf("URL が誤っています。result:%v expected:%v", ret, URL)
+	if u.Scheme != "https" {
+		t.Errorf("Scheme は https 限定です。%v", u.Scheme)
 	}
 
-	path := fmt.Sprintf("/%d/%s", API_VER, NUMBER_END_POINT)
-	if u.Path != path {
-		t.Errorf("path が誤っています。result:%v expected:%v", u.Path, path)
+	if u.Host != HOST {
+		t.Errorf("Host が異なります。%v", u.Host)
 	}
 
-	query := u.Query()
-	if query["id"][0] != appId {
-		t.Errorf("id の値が異なります。result:%v expected:%v", query["id"][0], appId)
+	if u.Path != "/4/num" {
+		t.Errorf("Path が異なります。%v", u.Path)
 	}
 
-	if query["number"][0] != "1234,5678" {
-		t.Errorf("number の値が異なります。result:%v expected:%v", query["number"][0], "1234,5678")
+	query := "history=1&id=ABCDEFG&number=1234%2C5678&type=12"
+	if u.RawQuery != query {
+		t.Errorf("Query が異なります。%v", u.RawQuery)
 	}
 
-	if query["type"][0] != RESPONSE_TYPE {
-		t.Errorf("type の値が異なります。result:%v expected:%v", query["type"], RESPONSE_TYPE)
-	}
-
-	if query["history"][0] != "1" {
-		t.Errorf("history の値が異なります。result:%v expected:%v", query["history"], "1")
+	url := "https://" + HOST + "/4/num?" + query
+	if u.String() != url {
+		t.Errorf("URL文字列が異なります。%v", u.String())
 	}
 }
