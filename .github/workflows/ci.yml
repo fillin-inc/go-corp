@@ -15,10 +15,10 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: ~/go/pkg/mod
-        key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/go.sum') }}
+        key: ${{ matrix.os }}-${{ matrix.go-version }}-build-${{ env.cache-name }}-${{ hashFiles('**/go.sum') }}
         restore-keys: |
-          ${{ matrix.os }}-build-${{ env.cache-name }}-
-          ${{ matrix.os }}-build-
+          ${{ matrix.os }}-${{ matrix.go-version }}-build-${{ env.cache-name }}-
+          ${{ matrix.os }}-${{ matrix.go-version }}-build-
           ${{ matrix.os }}-
     - run: go mod download
     - run: go test ./...
