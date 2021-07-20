@@ -26,6 +26,10 @@ var (
 
 func dateValidation(fl validator.FieldLevel) bool {
 	v := fl.Field().String()
+	// 空文字列は別バリデーションで検証
+	if v == "" {
+		return true
+	}
 	_, err := time.Parse("2006-01-02", v)
 
 	return err == nil
