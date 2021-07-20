@@ -1,12 +1,19 @@
 package request
 
 import (
-	"errors"
 	"reflect"
 	"testing"
-
-	"github.com/go-playground/validator"
 )
+
+type numberValidationErrTest struct {
+	Number Number
+	ErrMsg string
+}
+
+type numberURLTest struct {
+	Number Number
+	URL    string
+}
 
 func TestNewNumber(t *testing.T) {
 	appID := "ABCDEFG"
@@ -28,149 +35,135 @@ func TestNewNumber(t *testing.T) {
 }
 
 func TestNumberValidate(t *testing.T) {
-	n := Number{
-		ID:           "ABCDEFG",
-		Numbers:      []uint64{1234, 5678},
-		ResponseType: RESPONSE_TYPE,
-		History:      true,
+	tests := []Number{
+		{
+			ID:           "ABCDEFG",
+			Numbers:      []uint64{1234},
+			ResponseType: RESPONSE_TYPE,
+			History:      true,
+		},
+		// Number has max slicer count(10)
+		{
+			ID:           "ABCDEFG",
+			Numbers:      []uint64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+			ResponseType: RESPONSE_TYPE,
+			History:      true,
+		},
+		// History is false
+		{
+			ID:           "ABCDEFG",
+			Numbers:      []uint64{1234},
+			ResponseType: RESPONSE_TYPE,
+			History:      false,
+		},
 	}
 
-	if err := n.Validate(); err != nil {
-		t.Errorf("バリデーションエラーが発生しました。%v", err)
-	}
-}
-
-func TestNumberValidateReturnErrorWhenAppIDIsEmpty(t *testing.T) {
-	n := Number{
-		ID:           "",
-		Numbers:      []uint64{1234, 5678},
-		ResponseType: RESPONSE_TYPE,
-		History:      false,
-	}
-
-	err := n.Validate()
-
-	if errors.Is(err, &validator.ValidationErrors{}) {
-		t.Errorf("エラーの型情報が異なります。result:%T expected:validator.ValidationErrors", err)
-	}
-
-	if err.Error() != "Key: 'Number.ID' Error:Field validation for 'ID' failed on the 'required' tag" {
-		t.Errorf("エラーメッセージが異なります。%v", err.Error())
-	}
-}
-
-func TestNumberValidateReturnErrorWhenNumbersIsEmpty(t *testing.T) {
-	n := Number{
-		ID:           "ABCDEFG",
-		Numbers:      []uint64{},
-		ResponseType: RESPONSE_TYPE,
-		History:      false,
-	}
-
-	err := n.Validate()
-	if err.Error() != "Key: 'Number.Numbers' Error:Field validation for 'Numbers' failed on the 'min' tag" {
-		t.Errorf("エラーメッセージが異なります。%v", err.Error())
+	for i, number := range tests {
+		if err := number.Validate(); err != nil {
+			t.Errorf("%d: Validation Error %v", i, err)
+		}
 	}
 }
 
-func TestNumberValidateReturnNoErrorWhenNumbersIs1(t *testing.T) {
-	n := Number{
-		ID:           "ABCDEFG",
-		Numbers:      []uint64{1234},
-		ResponseType: RESPONSE_TYPE,
-		History:      false,
+func TestNumberValidateError(t *testing.T) {
+	tests := []numberValidationErrTest{
+		{
+			Number{
+				ID:           "",
+				Numbers:      []uint64{1234},
+				ResponseType: RESPONSE_TYPE,
+				History:      false,
+			},
+			"Key: 'Number.ID' Error:Field validation for 'ID' failed on the 'required' tag",
+		},
+		{
+			Number{
+				ID:           "ABCDEFG",
+				Numbers:      []uint64{},
+				ResponseType: RESPONSE_TYPE,
+				History:      false,
+			},
+			"Key: 'Number.Numbers' Error:Field validation for 'Numbers' failed on the 'min' tag",
+		},
+		{
+			Number{
+				ID:           "ABCDEFG",
+				Numbers:      []uint64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11},
+				ResponseType: RESPONSE_TYPE,
+				History:      false,
+			},
+			"Key: 'Number.Numbers' Error:Field validation for 'Numbers' failed on the 'max' tag",
+		},
+		{
+			Number{
+				ID:           "ABCDEFG",
+				Numbers:      []uint64{1234},
+				ResponseType: "",
+				History:      false,
+			},
+			"Key: 'Number.ResponseType' Error:Field validation for 'ResponseType' failed on the 'required' tag",
+		},
+		{
+			Number{
+				ID:           "ABCDEFG",
+				Numbers:      []uint64{1234},
+				ResponseType: "01",
+				History:      false,
+			},
+			"Key: 'Number.ResponseType' Error:Field validation for 'ResponseType' failed on the 'eq' tag",
+		},
 	}
 
-	if err := n.Validate(); err != nil {
-		t.Errorf("バリデーションエラーが発生しました。%v", err)
-	}
-}
+	for i, test := range tests {
+		err := test.Number.Validate()
+		if err == nil {
+			t.Errorf("%d: Validation Error not returns", i)
+		}
 
-func TestNumberValidateReturnNoErrorWhenNumbersIs10(t *testing.T) {
-	n := Number{
-		ID:           "ABCDEFG",
-		Numbers:      []uint64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
-		ResponseType: RESPONSE_TYPE,
-		History:      false,
-	}
-
-	if err := n.Validate(); err != nil {
-		t.Errorf("バリデーションエラーが発生しました。%v", err)
-	}
-}
-
-func TestNumberValidateReturnErrorWhenNumbersIs11(t *testing.T) {
-	n := Number{
-		ID:           "ABCDEFG",
-		Numbers:      []uint64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11},
-		ResponseType: RESPONSE_TYPE,
-		History:      false,
-	}
-
-	err := n.Validate()
-	if err.Error() != "Key: 'Number.Numbers' Error:Field validation for 'Numbers' failed on the 'max' tag" {
-		t.Errorf("エラーメッセージが異なります。%v", err.Error())
-	}
-}
-
-func TestNumberValidateReturnErrorWhenResponseTypeIsEmpty(t *testing.T) {
-	n := Number{
-		ID:           "ABCDEFG",
-		Numbers:      []uint64{1234},
-		ResponseType: "",
-		History:      false,
-	}
-
-	err := n.Validate()
-	if err.Error() != "Key: 'Number.ResponseType' Error:Field validation for 'ResponseType' failed on the 'required' tag" {
-		t.Errorf("エラーメッセージが異なります。%v", err.Error())
-	}
-}
-
-func TestNumberValidateReturnErrorWhenResponseTypeIsInvalid(t *testing.T) {
-	n := Number{
-		ID:           "ABCDEFG",
-		Numbers:      []uint64{1234},
-		ResponseType: "01",
-		History:      false,
-	}
-
-	err := n.Validate()
-	if err.Error() != "Key: 'Number.ResponseType' Error:Field validation for 'ResponseType' failed on the 'eq' tag" {
-		t.Errorf("エラーメッセージが異なります。%v", err.Error())
+		if err.Error() != test.ErrMsg {
+			t.Errorf("%d: Validation Error Message not matched result:%s expected:%s", i, err.Error(), test.ErrMsg)
+		}
 	}
 }
 
 func TestURL(t *testing.T) {
-	appID := "ABCDEFG"
-	nums := []uint64{1234, 5678}
-	history := true
-	number := &Number{appID, nums, RESPONSE_TYPE, history}
-
-	u, err := number.URL()
-	if err != nil {
-		t.Errorf("エラーが発生しました。%v", err)
+	tests := []numberURLTest{
+		{
+			Number{
+				ID:           "ABCDEFG",
+				Numbers:      []uint64{1234},
+				ResponseType: RESPONSE_TYPE,
+				History:      true,
+			},
+			"https://api.houjin-bangou.nta.go.jp/4/num?history=1&id=ABCDEFG&number=1234&type=12",
+		},
+		{
+			// Numbers is multiple value
+			Number{
+				ID:           "ABCDEFG",
+				Numbers:      []uint64{1234, 5678},
+				ResponseType: RESPONSE_TYPE,
+				History:      true,
+			},
+			"https://api.houjin-bangou.nta.go.jp/4/num?history=1&id=ABCDEFG&number=1234%2C5678&type=12",
+		},
+		{
+			// History is false
+			Number{
+				ID:           "ABCDEFG",
+				Numbers:      []uint64{1234},
+				ResponseType: RESPONSE_TYPE,
+				History:      false,
+			},
+			"https://api.houjin-bangou.nta.go.jp/4/num?history=0&id=ABCDEFG&number=1234&type=12",
+		},
 	}
 
-	if u.Scheme != "https" {
-		t.Errorf("Scheme は https 限定です。%v", u.Scheme)
-	}
+	for i, test := range tests {
+		url, _ := test.Number.URL()
 
-	if u.Host != HOST {
-		t.Errorf("Host が異なります。%v", u.Host)
-	}
-
-	if u.Path != "/4/num" {
-		t.Errorf("Path が異なります。%v", u.Path)
-	}
-
-	query := "history=1&id=ABCDEFG&number=1234%2C5678&type=12"
-	if u.RawQuery != query {
-		t.Errorf("Query が異なります。%v", u.RawQuery)
-	}
-
-	url := "https://" + HOST + "/4/num?" + query
-	if u.String() != url {
-		t.Errorf("URL文字列が異なります。%v", u.String())
+		if url.String() != test.URL {
+			t.Errorf("%d: URL String not match result:%s expected:%s", i, url.String(), test.URL)
+		}
 	}
 }
