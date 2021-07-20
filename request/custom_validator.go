@@ -39,7 +39,7 @@ func dateEqualOrGreaterValidation(fl validator.FieldLevel) bool {
 	field := fl.Field()
 	kind := field.Kind()
 
-	topField, topKind, ok := fl.GetStructFieldOK()
+	topField, topKind, _, ok := fl.GetStructFieldOK2()
 	if !ok || topKind != kind {
 		return false
 	}

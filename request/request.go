@@ -23,8 +23,17 @@ type URLBuilder interface {
 
 func init() {
 	validate = validator.New()
-	validate.RegisterValidation("date", dateValidation)
-	validate.RegisterValidation("gtedate", dateEqualOrGreaterValidation)
-	validate.RegisterValidation("address", addressValidation)
-	validate.RegisterValidation("kind", kindValidation)
+	vals := map[string]func(fl validator.FieldLevel) bool{
+		"date":    dateValidation,
+		"gtedate": dateEqualOrGreaterValidation,
+		"address": addressValidation,
+		"kind":    kindValidation,
+	}
+
+	for name, f := range vals {
+		err := validate.RegisterValidation(name, f)
+		if err != nil {
+			panic(err)
+		}
+	}
 }
