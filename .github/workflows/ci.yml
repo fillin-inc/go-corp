@@ -1,4 +1,4 @@
-on: [push, pull_request]
+on: [push]
 name: CI
 jobs:
   test:
@@ -23,6 +23,6 @@ jobs:
         go-version: 1.16.x
     - uses: actions/checkout@v2
     - uses: golangci/golangci-lint-action@v2
-    - run: golangci-lint run ./...
       with:
         version: latest
+    - run: golangci-lint run ./...
