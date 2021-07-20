@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/go-playground/validator"
 	"github.com/google/go-querystring/query"
 )
 
@@ -39,12 +38,7 @@ func NewDiff(appID string, from string, to string, address string, kind []string
 }
 
 func (d Diff) Validate() error {
-	validator := validator.New()
-	validator.RegisterValidation("date", dateValidation)
-	validator.RegisterValidation("gtedate", dateEqualOrGreaterValidation)
-	validator.RegisterValidation("address", addressValidation)
-	validator.RegisterValidation("kind", kindValidation)
-	return validator.Struct(d)
+	return validate.Struct(d)
 }
 
 func (d Diff) URL() (url.URL, error) {

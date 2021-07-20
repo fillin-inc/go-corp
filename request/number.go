@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/go-playground/validator"
 	"github.com/google/go-querystring/query"
 )
 
@@ -30,8 +29,7 @@ func NewNumber(appID string, numbers []uint64, history bool) *Number {
 }
 
 func (n Number) Validate() error {
-	validator := validator.New()
-	return validator.Struct(n)
+	return validate.Struct(n)
 }
 
 func (n Number) URL() (url.URL, error) {
