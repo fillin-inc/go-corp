@@ -25,33 +25,28 @@ var (
 	}
 )
 
-func EasyNumberSearch(numbers []uint64) (Response, error) {
+func ByNumber(number uint64) (Response, error) {
+	builder := request.NewNumber(appID, []uint64{number}, false)
+	return responseByURLBuilder(builder)
+}
+
+func ByNumberWithHistory(number uint64) (Response, error) {
+	builder := request.NewNumber(appID, []uint64{number}, true)
+	return responseByURLBuilder(builder)
+}
+
+func ByNumbers(numbers []uint64) (Response, error) {
 	builder := request.NewNumber(appID, numbers, false)
 	return responseByURLBuilder(builder)
 }
 
-func NumberSearch(numbers []uint64, history bool) (Response, error) {
-	builder := request.NewNumber(appID, numbers, history)
-	return responseByURLBuilder(builder)
-}
-
-func EasyDiffSearch(from string, to string, address string) (Response, error) {
+func DiffSearch(from string, to string, address string) (Response, error) {
 	builder := request.NewDiff(appID, from, to, address, []string{}, 1)
 	return responseByURLBuilder(builder)
 }
 
-func DiffSearch(from string, to string, address string, kind []string, divide int) (Response, error) {
-	builder := request.NewDiff(appID, from, to, address, kind, divide)
-	return responseByURLBuilder(builder)
-}
-
-func EasyNameSearch(name string, address string) (Response, error) {
+func NameSearch(name string, address string) (Response, error) {
 	builder := request.NewName(appID, name, 2, 1, address, []string{}, false, true, "", "", 1)
-	return responseByURLBuilder(builder)
-}
-
-func NameSearch(name string, mode int, target int, address string, kind []string, change bool, close bool, from string, to string, divide int) (Response, error) {
-	builder := request.NewName(appID, name, mode, target, address, kind, change, close, from, to, divide)
 	return responseByURLBuilder(builder)
 }
 
