@@ -1,4 +1,4 @@
-module fillin-inc.com/go-corp
+module github.com/fillin-inc/go-corp
 
 go 1.16
 

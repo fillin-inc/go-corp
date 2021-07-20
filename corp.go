@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"fillin-inc.com/go-corp/request"
+	"github.com/fillin-inc/go-corp/request"
 )
 
 var (
