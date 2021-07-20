@@ -269,7 +269,7 @@ func TestDiffValidateError(t *testing.T) {
 			"Key: 'Diff.Kind' Error:Field validation for 'Kind' failed on the 'kind' tag",
 		},
 		{
-			// Divide is less than min value(0)
+			// Divide is less than min value(1)
 			Diff{
 				ID:           "ABCDEFG",
 				From:         "2021-07-19",
@@ -277,19 +277,6 @@ func TestDiffValidateError(t *testing.T) {
 				Address:      "",
 				Kind:         []string{},
 				Divide:       0,
-				ResponseType: RESPONSE_TYPE,
-			},
-			"Key: 'Diff.Divide' Error:Field validation for 'Divide' failed on the 'min' tag",
-		},
-		{
-			// Divide is less than min value(0)
-			Diff{
-				ID:           "ABCDEFG",
-				From:         "2021-07-19",
-				To:           "2021-07-19",
-				Address:      "",
-				Kind:         []string{},
-				Divide:       -1,
 				ResponseType: RESPONSE_TYPE,
 			},
 			"Key: 'Diff.Divide' Error:Field validation for 'Divide' failed on the 'min' tag",
