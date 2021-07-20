@@ -64,8 +64,8 @@ func (n Name) URL() (url.URL, error) {
 	}
 
 	return url.URL{
-		Scheme:   "https",
-		Host:     HOST,
+		Scheme:   Scheme,
+		Host:     Host,
 		Path:     fmt.Sprintf("/%d/name", API_VER),
 		RawQuery: q.Encode(),
 	}, nil
