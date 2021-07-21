@@ -132,10 +132,16 @@ func (c Corporation) ProcessText() string {
 
 // KindText は Kind(法人種別) のテキスト表示を返します。
 func (c Corporation) KindText() string {
+	if c.Kind == 0 {
+		return ""
+	}
 	return kinds[c.Kind]
 }
 
 // CloseCauseText は CloseCause(登記事項の閉鎖等の事由) のテキスト表示を返します。
 func (c Corporation) CloseCauseText() string {
+	if c.CloseCause == "" {
+		return ""
+	}
 	return closeCauses[c.CloseCause]
 }

@@ -166,6 +166,13 @@ func TestKindText(t *testing.T) {
 	}
 }
 
+func TestKindTextEmpty(t *testing.T) {
+	c := Corporation{}
+	if c.KindText() != "" {
+		t.Errorf("KindText return wrong value result:%s expected:%s", c.KindText(), "")
+	}
+}
+
 func TestCloseCauseText(t *testing.T) {
 	c := Corporation{}
 	for key, val := range closeCauses {
@@ -173,5 +180,12 @@ func TestCloseCauseText(t *testing.T) {
 		if c.CloseCauseText() != val {
 			t.Errorf("CloseCauseText return wrong value result:%s expected:%s", c.CloseCauseText(), val)
 		}
+	}
+}
+
+func TestCloseCauseTextEmpty(t *testing.T) {
+	c := Corporation{}
+	if c.CloseCauseText() != "" {
+		t.Errorf("CloseCauseText return wrong value result:%s expected:%s", c.CloseCauseText(), "")
 	}
 }
