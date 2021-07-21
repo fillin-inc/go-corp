@@ -115,6 +115,143 @@ func TestUnmarshalToXML(t *testing.T) {
 	err := xml.Unmarshal([]byte(str), &res)
 
 	if err != nil {
-		t.Errorf("XMLのパースに失敗しました。%v", err)
+		t.Errorf("failed to parse XML: %v", err)
 	}
+
+	// 0/1 を bool で扱うフィールドのみ検証
+	corp := res.Corporations[0]
+	if corp.Correct != true {
+		t.Errorf("Correct is wrong result:%t expected:%t", corp.Correct, true)
+	}
+
+	if corp.Latest != false {
+		t.Errorf("Latest is wrong result:%t expected:%t", corp.Latest, false)
+	}
+
+	if corp.Hihyoji != false {
+		t.Errorf("Hihyoji is wrong result:%t expected:%t", corp.Hihyoji, false)
+	}
+
+	corp = res.Corporations[2]
+	if corp.Correct != false {
+		t.Errorf("Correct is wrong result:%t expected:%t", corp.Correct, false)
+	}
+
+	if corp.Latest != true {
+		t.Errorf("Latest is wrong result:%t expected:%t", corp.Latest, true)
+	}
+
+	if corp.Hihyoji != false {
+		t.Errorf("Hihyoji is wrong result:%t expected:%t", corp.Hihyoji, false)
+	}
+}
+
+func TestUnmarshalToXMLWhenProcessIs99(t *testing.T) {
+	str := `
+	<?xml version="1.0" encoding="UTF-8"?>
+		<corporations>
+			<lastUpdateDate>2021-07-16</lastUpdateDate>
+			<count>1</count>
+			<divideNumber>1</divideNumber>
+			<divideSize>1</divideSize>
+			<corporation>
+				<sequenceNumber>1</sequenceNumber>
+				<corporateNumber>5070001032626</corporateNumber>
+				<process>99</process>
+				<correct/>
+				<updateDate>2021-06-09</updateDate>
+				<changeDate/>
+				<name/>
+				<nameImageId/>
+				<kind/>
+				<prefectureName/>
+				<cityName/>
+				<streetNumber/>
+				<addressImageId/>
+				<prefectureCode/>
+				<cityCode/>
+				<postCode/>
+				<addressOutside/>
+				<addressOutsideImageId/>
+				<closeDate/>
+				<closeCause/>
+				<successorCorporateNumber/>
+				<changeCause/>
+				<assignmentDate/>
+				<latest/>
+				<enName/>
+				<enPrefectureName/>
+				<enCityName/>
+				<enAddressOutside/>
+				<furigana/>
+				<hihyoji/>
+			</corporation>
+		</corporations>`
+
+	var res Response
+	err := xml.Unmarshal([]byte(str), &res)
+
+	if err != nil {
+		t.Errorf("failed to parse XML: %v", err)
+	}
+}
+
+func TestProcessText(t *testing.T) {
+	c := Corporation{}
+	for key, val := range processes {
+		c.Process = key
+		if c.ProcessText() != val {
+			t.Errorf("ProcessText return wrong value result:%s expected:%s", c.ProcessText(), val)
+		}
+	}
+}
+
+func TestKindText(t *testing.T) {
+	c := Corporation{}
+	for key, val := range kinds {
+		c.Kind = key
+		if c.KindText() != val {
+			t.Errorf("KindText return wrong value result:%s expected:%s", c.KindText(), val)
+		}
+	}
+}
+
+func TestKindTextEmpty(t *testing.T) {
+	c := Corporation{}
+	if c.KindText() != "" {
+		t.Errorf("KindText return wrong value result:%s expected:%s", c.KindText(), "")
+	}
+}
+
+func TestCloseCauseText(t *testing.T) {
+	c := Corporation{}
+	for key, val := range closeCauses {
+		c.CloseCause = key
+		if c.CloseCauseText() != val {
+			t.Errorf("CloseCauseText return wrong value result:%s expected:%s", c.CloseCauseText(), val)
+		}
+	}
+}
+
+func TestCloseCauseTextEmpty(t *testing.T) {
+	c := Corporation{}
+	if c.CloseCauseText() != "" {
+		t.Errorf("CloseCauseText return wrong value result:%s expected:%s", c.CloseCauseText(), "")
+	}
+}
+
+func TestAvailable(t *testing.T) {
+	t.Run("available", func(t *testing.T) {
+		c := Corporation{Process: "12"}
+		if c.Available() != true {
+			t.Error("Available return false. expected: true")
+		}
+	})
+
+	t.Run("unavailable", func(t *testing.T) {
+		c := Corporation{Process: "99"}
+		if c.Available() != false {
+			t.Error("Available return true. expected: false")
+		}
+	})
 }
