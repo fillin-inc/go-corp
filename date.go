@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-var Location = "Asia/Tokyo"
+var location = "Asia/Tokyo"
 
 type Date time.Time
 
@@ -20,7 +20,7 @@ func (date *Date) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 		return nil
 	}
 
-	loc, _ := time.LoadLocation(Location)
+	loc, _ := time.LoadLocation(location)
 	t, err := time.ParseInLocation("2006-01-02", s, loc)
 	if err != nil {
 		return err

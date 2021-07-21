@@ -1,6 +1,7 @@
 package corp
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -196,4 +197,59 @@ func setTestEnvToRequest(ts *httptest.Server) {
 	u, _ := url.ParseRequestURI(ts.URL)
 	request.Scheme = u.Scheme
 	request.Host = u.Host
+}
+
+func ExampleByNumber() {
+	// テスト環境用の設定
+	// 実際に利用する際には不要
+	ts := testServer("./testdata/response/by_number.xml")
+	setTestEnvToRequest(ts)
+	defer ts.Close()
+
+	// 法人番号 Web-API アプリケーションIDを設定
+	SetAppID("your-tolen")
+
+	// 株式会社フィルインの法人番号
+	var corpNum uint64 = 5070001032626
+
+	res, _ := ByNumber(corpNum)
+	fmt.Println(res.Corporations[0].Name)
+	// Output: 株式会社フィルイン
+}
+
+func ExampleDiffSearch() {
+	// テスト環境用の設定
+	// 実際に利用する際には不要
+	ts := testServer("./testdata/response/diff_search.xml")
+	setTestEnvToRequest(ts)
+	defer ts.Close()
+
+	// 法人番号 Web-API アプリケーションIDを設定
+	SetAppID("your-token")
+
+	from := "2021-06-09"
+	to := "2021-06-09"
+	// 群馬県高崎市に限定
+	address := "10202"
+	res, _ := DiffSearch(from, to, address)
+	fmt.Println(res.Corporations[0].Name)
+	// Output: 株式会社フィルイン
+}
+
+func ExampleNameSearch() {
+	// テスト環境用の設定
+	// 実際に利用する際には不要
+	ts := testServer("./testdata/response/name_search.xml")
+	setTestEnvToRequest(ts)
+	defer ts.Close()
+
+	// 法人番号 Web-API アプリケーションIDを設定
+	SetAppID("your-token")
+
+	name := "フィルイン"
+	// 群馬県高崎市に限定
+	address := "10202"
+	res, _ := NameSearch(name, address)
+	fmt.Println(res.Corporations[0].Name)
+	// Output: 株式会社フィルイン
 }
