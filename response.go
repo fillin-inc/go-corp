@@ -42,9 +42,9 @@ type Response struct {
 	// 総件数
 	Count uint32 `xml:"count"`
 	// 分割番号
-	DivideNumber uint16 `xml:"divideNumber"`
+	DivideNumber uint32 `xml:"divideNumber"`
 	// 分割数
-	DevideSize uint16 `xml:"divideSize"`
+	DevideSize uint32 `xml:"divideSize"`
 	// 法人等要素
 	Corporations []Corporation `xml:"corporation"`
 }
