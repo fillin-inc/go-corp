@@ -145,3 +145,11 @@ func (c Corporation) CloseCauseText() string {
 	}
 	return closeCauses[c.CloseCause]
 }
+
+// Available は法人情報が有効状態か判定します。
+// 処理区分(Process) が 99 の場合,
+// 法人情報のうち一連番号(SequenceNumber), 法人番号(CorporateNumber), 更新年月日(UpdateDate) を除き
+// すべてブランクとなります。
+func (c Corporation) Available() bool {
+	return c.Process != "99"
+}

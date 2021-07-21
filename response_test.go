@@ -239,3 +239,19 @@ func TestCloseCauseTextEmpty(t *testing.T) {
 		t.Errorf("CloseCauseText return wrong value result:%s expected:%s", c.CloseCauseText(), "")
 	}
 }
+
+func TestAvailable(t *testing.T) {
+	t.Run("available", func(t *testing.T) {
+		c := Corporation{Process: "12"}
+		if c.Available() != true {
+			t.Error("Available return false. expected: true")
+		}
+	})
+
+	t.Run("unavailable", func(t *testing.T) {
+		c := Corporation{Process: "99"}
+		if c.Available() != false {
+			t.Error("Available return true. expected: false")
+		}
+	})
+}
