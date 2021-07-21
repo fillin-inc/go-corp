@@ -115,6 +115,33 @@ func TestUnmarshalToXML(t *testing.T) {
 	err := xml.Unmarshal([]byte(str), &res)
 
 	if err != nil {
-		t.Errorf("XMLのパースに失敗しました。%v", err)
+		t.Errorf("failed to parse XML: %v", err)
+	}
+
+	// 0/1 を bool で扱うフィールドのみ検証
+	corp := res.Corporations[0]
+	if corp.Correct != true {
+		t.Errorf("Correct is wrong result:%t expected:%t", corp.Correct, true)
+	}
+
+	if corp.Latest != false {
+		t.Errorf("Latest is wrong result:%t expected:%t", corp.Latest, false)
+	}
+
+	if corp.Hihyoji != false {
+		t.Errorf("Hihyoji is wrong result:%t expected:%t", corp.Hihyoji, false)
+	}
+
+	corp = res.Corporations[2]
+	if corp.Correct != false {
+		t.Errorf("Correct is wrong result:%t expected:%t", corp.Correct, false)
+	}
+
+	if corp.Latest != true {
+		t.Errorf("Latest is wrong result:%t expected:%t", corp.Latest, true)
+	}
+
+	if corp.Hihyoji != false {
+		t.Errorf("Hihyoji is wrong result:%t expected:%t", corp.Hihyoji, false)
 	}
 }
