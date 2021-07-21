@@ -1,42 +1,89 @@
 package corp
 
 type Response struct {
-	LastUpdateDate *Date         `xml:"lastUpdateDate"`
-	Count          uint32        `xml:"count"`
-	DivideNumber   uint16        `xml:"divideNumber"`
-	DevideSize     uint16        `xml:"divideSize"`
-	Corporations   []Corporation `xml:"corporation"`
+	// 最終更新年月日
+	LastUpdateDate *Date `xml:"lastUpdateDate"`
+	// 総件数
+	Count uint32 `xml:"count"`
+	// 分割番号
+	DivideNumber uint16 `xml:"divideNumber"`
+	// 分割数
+	DevideSize uint16 `xml:"divideSize"`
+	// 法人等要素
+	Corporations []Corporation `xml:"corporation"`
 }
 
 type Corporation struct {
-	SequenceNumber           uint16 `xml:"sequenceNumber"`
-	CorporateNumber          uint64 `xml:"corporateNumber"`
-	Process                  string `xml:"process"`
-	Correct                  uint8  `xml:"correct"`
-	UpdateDate               *Date  `xml:"updateDate"`
-	ChangeDate               *Date  `xml:"ChangeDate"`
-	Name                     string `xml:"name"`
-	NameImageId              string `xml:"nameImageId"`
-	Kind                     uint16 `xml:"kind"`
-	PrefectureName           string `xml:"prefectureName"`
-	CityName                 string `xml:"cityName"`
-	StreetNumber             string `xml:"streetNumber"`
-	AddressImageId           string `xml:"addressImageId"`
-	PrefectureCode           uint8  `xml:"prefectureCode"`
-	CityCode                 uint16 `xml:"cityCode"`
-	PostCode                 string `xml:"postCode"`
-	AddressOutside           string `xml:"addressOutside"`
-	AddressOutsideImageId    string `xml:"addressOutsideImageId"`
-	CloseDate                *Date  `xml:"closeDate"`
-	CloseCause               string `xml:"closeCause"`
+	// 一連番号
+	SequenceNumber uint16 `xml:"sequenceNumber"`
+	// 法人番号
+	CorporateNumber uint64 `xml:"corporateNumber"`
+	// 処理区分
+	// 01:新規, 11:商号又は名称の変更, 12:国内所在地の変更, 13: 国外所在地の変更,
+	// 21:登記記録の閉鎖等, 22:登記記録の復活等,
+	// 71:吸収合併, 72:吸収合併無効, 81:商号の登記の抹消, 99:削除
+	Process string `xml:"process"`
+	// 訂正区分
+	// false:訂正以外, true:訂正
+	Correct bool `xml:"correct"`
+	// 更新年月日
+	UpdateDate *Date `xml:"updateDate"`
+	// 変更年月日
+	ChangeDate *Date `xml:"ChangeDate"`
+	// 商号または名称
+	Name string `xml:"name"`
+	// 商号または名称イメージID
+	NameImageId string `xml:"nameImageId"`
+	// 法人種別
+	// 101:国の機関, 201:地方公共団体,
+	// 301:株式会社, 302:有限会社, 303:合名会社, 304:合資会社, 305:合同会社, 399:その他の設立登記法人
+	// 401:外国会社等, 402:その他
+	Kind uint16 `xml:"kind"`
+	// 国内所在地(都道府県)
+	PrefectureName string `xml:"prefectureName"`
+	// 国内所在地(市区町村)
+	CityName string `xml:"cityName"`
+	// 国内所在地(丁目番地等)
+	StreetNumber string `xml:"streetNumber"`
+	// 国内所在地イメージID
+	AddressImageId string `xml:"addressImageId"`
+	// 都道府県コード
+	// JIS X 401 に準ずる
+	PrefectureCode uint8 `xml:"prefectureCode"`
+	// 市区町村コード
+	// JIS X 402 に準ずる
+	CityCode uint16 `xml:"cityCode"`
+	// 郵便番号
+	PostCode string `xml:"postCode"`
+	// 国外所在地
+	AddressOutside string `xml:"addressOutside"`
+	// 国外所在地イメージID
+	AddressOutsideImageId string `xml:"addressOutsideImageId"`
+	// 登記記録の閉鎖等年月日
+	CloseDate *Date `xml:"closeDate"`
+	// 登記記録の閉鎖等の事由
+	// 01:精算の結了等, 11:合併による解散等, 21:登記官による閉鎖, 31:その他の精算の結了等
+	CloseCause string `xml:"closeCause"`
+	// 承継先法人番号
 	SuccessorCorporateNumber uint64 `xml:"successorCorporateNumber"`
-	ChangeCause              string `xml:"changeCause"`
-	AssignmentDate           *Date  `xml:"assignmentDate"`
-	Latest                   bool   `xml:"latest"`
-	EnName                   string `xml:"enName"`
-	EnPrefectureName         string `xml:"enPrefectureName"`
-	EnCityName               string `xml:"enCityName"`
-	EnAddressOutside         string `xml:"enAddressOutside"`
-	Furigana                 string `xml:"furigana"`
-	Hihyoji                  bool   `xml:"hihyoji"`
+	// 変更事由の詳細
+	ChangeCause string `xml:"changeCause"`
+	// 法人番号指定年月日
+	AssignmentDate *Date `xml:"assignmentDate"`
+	// 最新履歴
+	// false: 過去情報, true:最新情報
+	Latest bool `xml:"latest"`
+	// 商号または名称(英語表記)
+	EnName string `xml:"enName"`
+	// 国内所在地(都道府県)(英語表記)
+	EnPrefectureName string `xml:"enPrefectureName"`
+	// 国内所在地(市区町村)(英語表記)
+	EnCityName string `xml:"enCityName"`
+	// 国内所在地(丁目番地等)(英語表記)
+	EnAddressOutside string `xml:"enAddressOutside"`
+	// フリガナ
+	Furigana string `xml:"furigana"`
+	// 検索対象除外
+	// false:検索対象, true:検索対象除外
+	Hihyoji bool `xml:"hihyoji"`
 }
