@@ -1,6 +1,7 @@
 package corp
 
 var (
+	// 処理区分
 	processes = map[string]string{
 		"01": "新規",
 		"11": "商号又は名称の変更",
@@ -14,6 +15,7 @@ var (
 		"99": "削除",
 	}
 
+	// 法人種別
 	kinds = map[uint16]string{
 		101: "国の機関",
 		201: "地方公共団体",
@@ -27,6 +29,7 @@ var (
 		499: "その他",
 	}
 
+	// 登記記録の閉鎖等の事由
 	closeCauses = map[string]string{
 		"01": "精算の結了等",
 		"11": "合併による解散等",
@@ -35,11 +38,16 @@ var (
 	}
 )
 
-// Response は法人番号 Web-API から取得できるレスポンスデータを扱う構造体です。
+/*
+Response は法人番号システム Web-API から取得できる XML データを扱います。
+
+詳細については Web-API 仕様書巻末のリソース定義書を参照してください。
+*/
 type Response struct {
 	// 最終更新年月日
 	LastUpdateDate *Date `xml:"lastUpdateDate"`
 	// 総件数
+	// 一致するデータがない場合は 0
 	Count uint32 `xml:"count"`
 	// 分割番号
 	DivideNumber uint32 `xml:"divideNumber"`
@@ -49,7 +57,7 @@ type Response struct {
 	Corporations []Corporation `xml:"corporation"`
 }
 
-// Corporation は法人番号 Web-API から取得できるレスポンスのうち, 法人情報に関するデータを扱う構造体です。
+// Corporation は法人番号システム Web-API から取得できるレスポンスのうち, 法人情報部分の構造体です。
 type Corporation struct {
 	// 一連番号
 	SequenceNumber uint32 `xml:"sequenceNumber"`
@@ -125,12 +133,12 @@ type Corporation struct {
 	Hihyoji bool `xml:"hihyoji"`
 }
 
-// ProcessText は Process(処理区分) のテキスト表示を返します。
+// ProcessText は Process(処理区分) の表示用テキストを返します。
 func (c Corporation) ProcessText() string {
 	return processes[c.Process]
 }
 
-// KindText は Kind(法人種別) のテキスト表示を返します。
+// KindText は Kind(法人種別) の表示用テキストを返します。
 func (c Corporation) KindText() string {
 	if c.Kind == 0 {
 		return ""
@@ -138,7 +146,7 @@ func (c Corporation) KindText() string {
 	return kinds[c.Kind]
 }
 
-// CloseCauseText は CloseCause(登記事項の閉鎖等の事由) のテキスト表示を返します。
+// CloseCauseText は CloseCause(登記事項の閉鎖等の事由)の表示用テキストを返します。
 func (c Corporation) CloseCauseText() string {
 	if c.CloseCause == "" {
 		return ""
@@ -146,10 +154,15 @@ func (c Corporation) CloseCauseText() string {
 	return closeCauses[c.CloseCause]
 }
 
-// Available は法人情報が有効状態か判定します。
-// 処理区分(Process) が 99 の場合,
-// 法人情報のうち一連番号(SequenceNumber), 法人番号(CorporateNumber), 更新年月日(UpdateDate) を除き
-// すべてブランクとなります。
+/*
+Available は法人情報が有効か判定します。
+
+処理区分(Process) が 99 の場合,
+一連番号(SequenceNumber), 法人番号(CorporateNumber), 更新年月日(UpdateDate) を除き
+すべてブランクとなります。
+
+このデータは実際には利用できないため無効と判定されます。
+*/
 func (c Corporation) Available() bool {
 	return c.Process != "99"
 }
