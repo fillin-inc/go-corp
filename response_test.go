@@ -145,3 +145,33 @@ func TestUnmarshalToXML(t *testing.T) {
 		t.Errorf("Hihyoji is wrong result:%t expected:%t", corp.Hihyoji, false)
 	}
 }
+
+func TestProcessText(t *testing.T) {
+	c := Corporation{}
+	for key, val := range processes {
+		c.Process = key
+		if c.ProcessText() != val {
+			t.Errorf("ProcessText return wrong value result:%s expected:%s", c.ProcessText(), val)
+		}
+	}
+}
+
+func TestKindText(t *testing.T) {
+	c := Corporation{}
+	for key, val := range kinds {
+		c.Kind = key
+		if c.KindText() != val {
+			t.Errorf("KindText return wrong value result:%s expected:%s", c.KindText(), val)
+		}
+	}
+}
+
+func TestCloseCauseText(t *testing.T) {
+	c := Corporation{}
+	for key, val := range closeCauses {
+		c.CloseCause = key
+		if c.CloseCauseText() != val {
+			t.Errorf("CloseCauseText return wrong value result:%s expected:%s", c.CloseCauseText(), val)
+		}
+	}
+}

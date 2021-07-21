@@ -1,5 +1,41 @@
 package corp
 
+var (
+	processes = map[string]string{
+		"01": "新規",
+		"11": "商号又は名称の変更",
+		"12": "国内所在地の変更",
+		"13": "国外所在地の変更",
+		"21": "登記記録の閉鎖等",
+		"22": "登記記録の復活等",
+		"71": "吸収合併",
+		"72": "吸収合併無効",
+		"81": "商号の登記の抹消",
+		"99": "削除",
+	}
+
+	kinds = map[uint16]string{
+		101: "国の機関",
+		201: "地方公共団体",
+		301: "株式会社",
+		302: "有限会社",
+		303: "合名会社",
+		304: "合資会社",
+		305: "合同会社",
+		399: "その他の設立登記法人",
+		401: "外国会社等",
+		499: "その他",
+	}
+
+	closeCauses = map[string]string{
+		"01": "精算の結了等",
+		"11": "合併による解散等",
+		"21": "登記官による閉鎖",
+		"31": "その他の精算の結了等",
+	}
+)
+
+// Response は法人番号 Web-API から取得できるレスポンスデータを扱う構造体です。
 type Response struct {
 	// 最終更新年月日
 	LastUpdateDate *Date `xml:"lastUpdateDate"`
@@ -13,9 +49,10 @@ type Response struct {
 	Corporations []Corporation `xml:"corporation"`
 }
 
+// Corporation は法人番号 Web-API から取得できるレスポンスのうち, 法人情報に関するデータを扱う構造体です。
 type Corporation struct {
 	// 一連番号
-	SequenceNumber uint16 `xml:"sequenceNumber"`
+	SequenceNumber uint32 `xml:"sequenceNumber"`
 	// 法人番号
 	CorporateNumber uint64 `xml:"corporateNumber"`
 	// 処理区分
@@ -86,4 +123,19 @@ type Corporation struct {
 	// 検索対象除外
 	// false:検索対象, true:検索対象除外
 	Hihyoji bool `xml:"hihyoji"`
+}
+
+// ProcessText は Process(処理区分) のテキスト表示を返します。
+func (c Corporation) ProcessText() string {
+	return processes[c.Process]
+}
+
+// KindText は Kind(法人種別) のテキスト表示を返します。
+func (c Corporation) KindText() string {
+	return kinds[c.Kind]
+}
+
+// CloseCauseText は CloseCause(登記事項の閉鎖等の事由) のテキスト表示を返します。
+func (c Corporation) CloseCauseText() string {
+	return closeCauses[c.CloseCause]
 }
