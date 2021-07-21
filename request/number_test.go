@@ -23,15 +23,15 @@ func TestNewNumber(t *testing.T) {
 
 	number := NewNumber(appID, nums, history)
 	if number.ID != appID {
-		t.Error("ID フィールドの値が一致しません。")
+		t.Error("ID field is not match.")
 	}
 
 	if !reflect.DeepEqual(number.Numbers, nums) {
-		t.Error("Numbers フィールドの値が一致しません。")
+		t.Error("Numbers field is not match.")
 	}
 
 	if number.History != history {
-		t.Error("History フィールドの値が一致しません。")
+		t.Error("History field is not match.")
 	}
 }
 

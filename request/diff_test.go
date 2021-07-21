@@ -27,31 +27,31 @@ func TestNewDiff(t *testing.T) {
 	diff := NewDiff(appID, from, to, address, kind, divide)
 
 	if diff.ID != appID {
-		t.Error("ID フィールドの値が一致しません。")
+		t.Error("ID field is not match.")
 	}
 
 	if diff.From != from {
-		t.Error("From フィールドの値が一致しません。")
+		t.Error("From field is not match.")
 	}
 
 	if diff.To != to {
-		t.Error("To フィールドの値が一致しません。")
+		t.Error("To field is not match.")
 	}
 
 	if diff.Address != address {
-		t.Error("Address フィールドの値が一致しません。")
+		t.Error("Address field is not match.")
 	}
 
 	if !reflect.DeepEqual(diff.Kind, kind) {
-		t.Error("Kind フィールドの値が一致しません。")
+		t.Error("Kind field is not match.")
 	}
 
 	if diff.Divide != divide {
-		t.Error("Divide フィールドの値が一致しません。")
+		t.Error("Divide field is not match.")
 	}
 
 	if diff.ResponseType != RESPONSE_TYPE {
-		t.Error("ResponseType フィールドの値が一致しません。")
+		t.Error("ResponseType field is not match.")
 	}
 }
 
