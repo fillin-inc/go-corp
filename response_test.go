@@ -146,6 +146,56 @@ func TestUnmarshalToXML(t *testing.T) {
 	}
 }
 
+func TestUnmarshalToXMLWhenProcessIs99(t *testing.T) {
+	str := `
+	<?xml version="1.0" encoding="UTF-8"?>
+		<corporations>
+			<lastUpdateDate>2021-07-16</lastUpdateDate>
+			<count>1</count>
+			<divideNumber>1</divideNumber>
+			<divideSize>1</divideSize>
+			<corporation>
+				<sequenceNumber>1</sequenceNumber>
+				<corporateNumber>5070001032626</corporateNumber>
+				<process>99</process>
+				<correct/>
+				<updateDate>2021-06-09</updateDate>
+				<changeDate/>
+				<name/>
+				<nameImageId/>
+				<kind/>
+				<prefectureName/>
+				<cityName/>
+				<streetNumber/>
+				<addressImageId/>
+				<prefectureCode/>
+				<cityCode/>
+				<postCode/>
+				<addressOutside/>
+				<addressOutsideImageId/>
+				<closeDate/>
+				<closeCause/>
+				<successorCorporateNumber/>
+				<changeCause/>
+				<assignmentDate/>
+				<latest/>
+				<enName/>
+				<enPrefectureName/>
+				<enCityName/>
+				<enAddressOutside/>
+				<furigana/>
+				<hihyoji/>
+			</corporation>
+		</corporations>`
+
+	var res Response
+	err := xml.Unmarshal([]byte(str), &res)
+
+	if err != nil {
+		t.Errorf("failed to parse XML: %v", err)
+	}
+}
+
 func TestProcessText(t *testing.T) {
 	c := Corporation{}
 	for key, val := range processes {
