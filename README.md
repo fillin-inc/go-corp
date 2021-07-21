@@ -1,16 +1,16 @@
-## corp 
+# corp
 
 `corp` パッケージは [法人番号システム Web-API](https://www.houjin-bangou.nta.go.jp/webapi/) を利用するためのパッケージです。
 
 法人番号システム Web-API に対しリクエストを行い法人情報を取得します。
 また内部的に利用している `request` パッケージはリクエストに必要な URL を生成します。
 
-### 使用方法
+## 使用方法
 
 [Go Doc](https://pkg.go.dev/github.com/fillin-inc/corp) に Example が用意してあります。
 API の詳細については関連ドキュメントをご確認ください。
 
-### Web-API 概要
+## Web-API 概要
 
 法人番号システム Web-API には 3 種類の法人情報取得方法があります。
 
@@ -31,10 +31,10 @@ Web-API の検索条件をより活用した処理を行いたい場合はサブ
 - [都道府県コード](https://nlftp.mlit.go.jp/ksj/gml/codelist/PrefCd.html)
 - [都道府県コード+市区町村コード](https://www.soumu.go.jp/denshijiti/code.html)
 
-### 不具合等について
+## 不具合等について
 
 Issue から報告または Pull-Request を送ってください。
 
-### LICENSE
+## LICENSE
 
 MIT License
