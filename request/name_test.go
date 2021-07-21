@@ -17,7 +17,7 @@ type nameURLTest struct {
 }
 
 func TestNewName(t *testing.T) {
-	appID := "ABCDEFG"
+	appID := "you-token"
 	name := "フィルイン"
 	mode := 1
 	target := 1
@@ -83,7 +83,7 @@ func TestNewName(t *testing.T) {
 func TestNameValidate(t *testing.T) {
 	tests := []Name{
 		{
-			ID:           "ABCDEFG",
+			ID:           "you-token",
 			Name:         "フィルイン",
 			Mode:         1,
 			Target:       1,
@@ -98,7 +98,7 @@ func TestNameValidate(t *testing.T) {
 		},
 		// Mode is 2
 		{
-			ID:           "ABCDEFG",
+			ID:           "you-token",
 			Name:         "フィルイン",
 			Mode:         2,
 			Target:       1,
@@ -113,7 +113,7 @@ func TestNameValidate(t *testing.T) {
 		},
 		// Target is 2
 		{
-			ID:           "ABCDEFG",
+			ID:           "you-token",
 			Name:         "フィルイン",
 			Mode:         1,
 			Target:       2,
@@ -128,7 +128,7 @@ func TestNameValidate(t *testing.T) {
 		},
 		// Target is 3
 		{
-			ID:           "ABCDEFG",
+			ID:           "you-token",
 			Name:         "フィルイン",
 			Mode:         1,
 			Target:       3,
@@ -143,7 +143,7 @@ func TestNameValidate(t *testing.T) {
 		},
 		// Address is PrefCode
 		{
-			ID:           "ABCDEFG",
+			ID:           "you-token",
 			Name:         "フィルイン",
 			Mode:         1,
 			Target:       1,
@@ -158,7 +158,7 @@ func TestNameValidate(t *testing.T) {
 		},
 		// Address has PrefCode + CityCode
 		{
-			ID:           "ABCDEFG",
+			ID:           "you-token",
 			Name:         "フィルイン",
 			Mode:         1,
 			Target:       1,
@@ -173,7 +173,7 @@ func TestNameValidate(t *testing.T) {
 		},
 		// Address has 1 KindCode
 		{
-			ID:           "ABCDEFG",
+			ID:           "you-token",
 			Name:         "フィルイン",
 			Mode:         1,
 			Target:       1,
@@ -188,7 +188,7 @@ func TestNameValidate(t *testing.T) {
 		},
 		// Kind has 2 KindCode
 		{
-			ID:           "ABCDEFG",
+			ID:           "you-token",
 			Name:         "フィルイン",
 			Mode:         1,
 			Target:       1,
@@ -203,7 +203,7 @@ func TestNameValidate(t *testing.T) {
 		},
 		// Change is true
 		{
-			ID:           "ABCDEFG",
+			ID:           "you-token",
 			Name:         "フィルイン",
 			Mode:         1,
 			Target:       1,
@@ -218,7 +218,7 @@ func TestNameValidate(t *testing.T) {
 		},
 		// Close is true
 		{
-			ID:           "ABCDEFG",
+			ID:           "you-token",
 			Name:         "フィルイン",
 			Mode:         1,
 			Target:       1,
@@ -233,7 +233,7 @@ func TestNameValidate(t *testing.T) {
 		},
 		// From has value
 		{
-			ID:           "ABCDEFG",
+			ID:           "you-token",
 			Name:         "フィルイン",
 			Mode:         1,
 			Target:       1,
@@ -248,7 +248,7 @@ func TestNameValidate(t *testing.T) {
 		},
 		// To have value
 		{
-			ID:           "ABCDEFG",
+			ID:           "you-token",
 			Name:         "フィルイン",
 			Mode:         1,
 			Target:       1,
@@ -263,7 +263,7 @@ func TestNameValidate(t *testing.T) {
 		},
 		// From and To have same value
 		{
-			ID:           "ABCDEFG",
+			ID:           "you-token",
 			Name:         "フィルイン",
 			Mode:         1,
 			Target:       1,
@@ -278,7 +278,7 @@ func TestNameValidate(t *testing.T) {
 		},
 		// From and To have different value
 		{
-			ID:           "ABCDEFG",
+			ID:           "you-token",
 			Name:         "フィルイン",
 			Mode:         1,
 			Target:       1,
@@ -293,7 +293,7 @@ func TestNameValidate(t *testing.T) {
 		},
 		// Divide has max value(99999)
 		{
-			ID:           "ABCDEFG",
+			ID:           "you-token",
 			Name:         "フィルイン",
 			Mode:         1,
 			Target:       1,
@@ -338,7 +338,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// Name is empty
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "",
 				Mode:         1,
 				Target:       1,
@@ -356,7 +356,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// Mode is zero
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         0,
 				Target:       1,
@@ -374,7 +374,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// Mode is 3
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         3,
 				Target:       1,
@@ -392,7 +392,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// Target is zero
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       0,
@@ -410,7 +410,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// Target is 4
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       4,
@@ -428,7 +428,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// Address is invalid PrefCode
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -446,7 +446,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// Address is invalid PrefCode + CityCode
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -464,7 +464,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// Address is invalid format
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -482,7 +482,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// Address is invalid CityCode
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -500,7 +500,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// Kind contains invalid KindCode
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -518,7 +518,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// From is invalid format
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -536,7 +536,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// To is invalid format
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -554,7 +554,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// To is past than From
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -572,7 +572,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// Divide is less than min value(1)
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -590,7 +590,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// Divide is greater than max value(99999)
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -608,7 +608,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// ResponseType is empty
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -626,7 +626,7 @@ func TestNameValidateError(t *testing.T) {
 		{
 			// ResponseType is invalid
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -659,7 +659,7 @@ func TestNameURL(t *testing.T) {
 	tests := []nameURLTest{
 		{
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -672,12 +672,12 @@ func TestNameURL(t *testing.T) {
 				Divide:       1,
 				ResponseType: RESPONSE_TYPE,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/name?change=0&close=0&divide=1&id=ABCDEFG&mode=1&name=%E3%83%95%E3%82%A3%E3%83%AB%E3%82%A4%E3%83%B3&target=1&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/name?change=0&close=0&divide=1&id=you-token&mode=1&name=%E3%83%95%E3%82%A3%E3%83%AB%E3%82%A4%E3%83%B3&target=1&type=12",
 		},
 		{
 			// Address is specified
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -690,12 +690,12 @@ func TestNameURL(t *testing.T) {
 				Divide:       1,
 				ResponseType: RESPONSE_TYPE,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/name?address=10202&change=0&close=0&divide=1&id=ABCDEFG&mode=1&name=%E3%83%95%E3%82%A3%E3%83%AB%E3%82%A4%E3%83%B3&target=1&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/name?address=10202&change=0&close=0&divide=1&id=you-token&mode=1&name=%E3%83%95%E3%82%A3%E3%83%AB%E3%82%A4%E3%83%B3&target=1&type=12",
 		},
 		{
 			// Kind is provided 1 KindCode
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -708,12 +708,12 @@ func TestNameURL(t *testing.T) {
 				Divide:       1,
 				ResponseType: RESPONSE_TYPE,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/name?change=0&close=0&divide=1&id=ABCDEFG&kind=03&mode=1&name=%E3%83%95%E3%82%A3%E3%83%AB%E3%82%A4%E3%83%B3&target=1&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/name?change=0&close=0&divide=1&id=you-token&kind=03&mode=1&name=%E3%83%95%E3%82%A3%E3%83%AB%E3%82%A4%E3%83%B3&target=1&type=12",
 		},
 		{
 			// Kind is provided 3 KindCode
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -726,12 +726,12 @@ func TestNameURL(t *testing.T) {
 				Divide:       1,
 				ResponseType: RESPONSE_TYPE,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/name?change=0&close=0&divide=1&id=ABCDEFG&kind=01%2C02%2C03&mode=1&name=%E3%83%95%E3%82%A3%E3%83%AB%E3%82%A4%E3%83%B3&target=1&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/name?change=0&close=0&divide=1&id=you-token&kind=01%2C02%2C03&mode=1&name=%E3%83%95%E3%82%A3%E3%83%AB%E3%82%A4%E3%83%B3&target=1&type=12",
 		},
 		{
 			// From is specified
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -744,12 +744,12 @@ func TestNameURL(t *testing.T) {
 				Divide:       1,
 				ResponseType: RESPONSE_TYPE,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/name?change=0&close=0&divide=1&from=2021-07-19&id=ABCDEFG&mode=1&name=%E3%83%95%E3%82%A3%E3%83%AB%E3%82%A4%E3%83%B3&target=1&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/name?change=0&close=0&divide=1&from=2021-07-19&id=you-token&mode=1&name=%E3%83%95%E3%82%A3%E3%83%AB%E3%82%A4%E3%83%B3&target=1&type=12",
 		},
 		{
 			// To is specified
 			Name{
-				ID:           "ABCDEFG",
+				ID:           "you-token",
 				Name:         "フィルイン",
 				Mode:         1,
 				Target:       1,
@@ -762,7 +762,7 @@ func TestNameURL(t *testing.T) {
 				Divide:       1,
 				ResponseType: RESPONSE_TYPE,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/name?change=0&close=0&divide=1&id=ABCDEFG&mode=1&name=%E3%83%95%E3%82%A3%E3%83%AB%E3%82%A4%E3%83%B3&target=1&to=2021-07-19&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/name?change=0&close=0&divide=1&id=you-token&mode=1&name=%E3%83%95%E3%82%A3%E3%83%AB%E3%82%A4%E3%83%B3&target=1&to=2021-07-19&type=12",
 		},
 	}
 
