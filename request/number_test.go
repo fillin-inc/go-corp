@@ -1,6 +1,7 @@
 package request
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -166,4 +167,19 @@ func TestURL(t *testing.T) {
 			t.Errorf("%d: URL String not match result:%s expected:%s", i, url.String(), test.URL)
 		}
 	}
+}
+
+func ExampleNumber_URL() {
+	// 株式会社フィルインの法人番号
+	var corpNum uint64 = 5070001032626
+	number := NewNumber("your-token", []uint64{corpNum}, false)
+
+	if err := number.Validate(); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	url, _ := number.URL()
+	fmt.Println(url.String())
+	// Output: https://api.houjin-bangou.nta.go.jp/4/num?history=0&id=your-token&number=5070001032626&type=12
 }

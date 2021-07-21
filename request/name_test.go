@@ -1,6 +1,7 @@
 package request
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -772,4 +773,22 @@ func TestNameURL(t *testing.T) {
 			t.Errorf("%d: URL String not match result:%s expected:%s", i, url.String(), test.URL)
 		}
 	}
+}
+
+func ExampleName_URL() {
+	keyword := "フィルイン"
+	mode := 1
+	target := 1
+	address := "10202"
+	kind := []string{"03"}
+	name := NewName("your-token", keyword, mode, target, address, kind, false, false, "", "", 1)
+
+	if err := name.Validate(); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	url, _ := name.URL()
+	fmt.Println(url.String())
+	// Output: https://api.houjin-bangou.nta.go.jp/4/name?address=10202&change=0&close=0&divide=1&id=your-token&kind=03&mode=1&name=%E3%83%95%E3%82%A3%E3%83%AB%E3%82%A4%E3%83%B3&target=1&type=12
 }

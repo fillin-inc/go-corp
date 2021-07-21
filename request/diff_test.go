@@ -1,6 +1,7 @@
 package request
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -396,4 +397,23 @@ func TestDiffURL(t *testing.T) {
 			t.Errorf("%d: URL String not match result:%s expected:%s", i, url.String(), test.URL)
 		}
 	}
+}
+
+func ExampleDiff_URL() {
+	from := "2021-07-19"
+	to := "2021-07-26"
+	// 群馬県高崎市
+	address := "10202"
+	// 法人に限定
+	kind := []string{"03"}
+	diff := NewDiff("your-token", from, to, address, kind, 1)
+
+	if err := diff.Validate(); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	url, _ := diff.URL()
+	fmt.Println(url.String())
+	// Output: https://api.houjin-bangou.nta.go.jp/4/diff?address=10202&devide=1&from=2021-07-19&id=your-token&kind=03&to=2021-07-26&type=12
 }
