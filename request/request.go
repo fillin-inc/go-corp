@@ -6,14 +6,14 @@ import (
 	"github.com/go-playground/validator"
 )
 
-const HOST = "api.houjin-bangou.nta.go.jp"
-
 const API_VER = 4
 
 const RESPONSE_TYPE = "12"
 
 var (
-	validate *validator.Validate
+	Scheme   = "https"
+	Host     = "api.houjin-bangou.nta.go.jp"
+	validate = validator.New()
 )
 
 type URLBuilder interface {
@@ -22,7 +22,6 @@ type URLBuilder interface {
 }
 
 func init() {
-	validate = validator.New()
 	vals := map[string]func(fl validator.FieldLevel) bool{
 		"date":    dateValidation,
 		"gtedate": dateEqualOrGreaterValidation,

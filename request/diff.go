@@ -49,8 +49,8 @@ func (d Diff) URL() (url.URL, error) {
 	}
 
 	return url.URL{
-		Scheme:   "https",
-		Host:     HOST,
+		Scheme:   Scheme,
+		Host:     Host,
 		Path:     fmt.Sprintf("/%d/diff", API_VER),
 		RawQuery: q.Encode(),
 	}, nil
