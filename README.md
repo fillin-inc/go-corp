@@ -7,7 +7,7 @@
 
 ## 使用方法
 
-[Go Doc](https://pkg.go.dev/github.com/fillin-inc/corp) に Example が用意してあります。
+[Go Doc](https://pkg.go.dev/github.com/fillin-inc/go-corp) に Example が用意してあります。
 API の詳細については関連ドキュメントをご確認ください。
 
 ## Web-API 概要
@@ -21,7 +21,7 @@ API の詳細については関連ドキュメントをご確認ください。
 `corp` パッケージでは, それぞれの Web-API を簡単に利用できるメソッドを用意しています。
 
 Web-API の検索条件をより活用した処理を行いたい場合はサブパッケージの 
-[request](https://pkg.go.dev/github.com/fillin-inc/corp/request) を使うことで URL を生成することができます。
+[request](https://pkg.go.dev/github.com/fillin-inc/go-corp/request) を使うことで URL を生成することができます。
 
 ### 関連ドキュメント
 
