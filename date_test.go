@@ -27,7 +27,7 @@ func TestUnmarshalDate(t *testing.T) {
 	loc, _ := time.LoadLocation("Asia/Tokyo")
 	expected := time.Date(2021, 7, 16, 0, 0, 0, 0, loc).Unix()
 	if dt.Result.Time().Unix() != expected {
-		t.Errorf("XMLのパース結果に問題があります。result:%v, expected:%v", dt.Result.Time().Unix(), expected)
+		t.Errorf("failed to parse. result:%v, expected:%v", dt.Result.Time().Unix(), expected)
 	}
 }
 
@@ -36,6 +36,6 @@ func TestDateToTime(t *testing.T) {
 	d := Date(time)
 
 	if reflect.TypeOf(d.Time()) != reflect.TypeOf(time) {
-		t.Errorf("型情報に誤りがあります。result:%T expected:%T", d.Time(), time)
+		t.Errorf("Type is wrrong. result:%T expected:%T", d.Time(), time)
 	}
 }

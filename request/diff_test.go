@@ -17,7 +17,7 @@ type diffURLTest struct {
 }
 
 func TestNewDiff(t *testing.T) {
-	appID := "ABCDEFG"
+	appID := "your-token"
 	from := "2021-07-19"
 	to := "2021-07-19"
 	address := "10202"
@@ -27,38 +27,38 @@ func TestNewDiff(t *testing.T) {
 	diff := NewDiff(appID, from, to, address, kind, divide)
 
 	if diff.ID != appID {
-		t.Error("ID フィールドの値が一致しません。")
+		t.Error("ID field is not match.")
 	}
 
 	if diff.From != from {
-		t.Error("From フィールドの値が一致しません。")
+		t.Error("From field is not match.")
 	}
 
 	if diff.To != to {
-		t.Error("To フィールドの値が一致しません。")
+		t.Error("To field is not match.")
 	}
 
 	if diff.Address != address {
-		t.Error("Address フィールドの値が一致しません。")
+		t.Error("Address field is not match.")
 	}
 
 	if !reflect.DeepEqual(diff.Kind, kind) {
-		t.Error("Kind フィールドの値が一致しません。")
+		t.Error("Kind field is not match.")
 	}
 
 	if diff.Divide != divide {
-		t.Error("Divide フィールドの値が一致しません。")
+		t.Error("Divide field is not match.")
 	}
 
 	if diff.ResponseType != RESPONSE_TYPE {
-		t.Error("ResponseType フィールドの値が一致しません。")
+		t.Error("ResponseType field is not match.")
 	}
 }
 
 func TestDiffValidate(t *testing.T) {
 	tests := []Diff{
 		{
-			ID:           "ABCDEFG",
+			ID:           "your-token",
 			From:         "2021-07-19",
 			To:           "2021-07-19",
 			Address:      "",
@@ -68,7 +68,7 @@ func TestDiffValidate(t *testing.T) {
 		},
 		// Address has PrefCode
 		{
-			ID:           "ABCDEFG",
+			ID:           "your-token",
 			From:         "2021-07-19",
 			To:           "2021-07-19",
 			Address:      "10",
@@ -78,7 +78,7 @@ func TestDiffValidate(t *testing.T) {
 		},
 		// Address has PrefCode + CityCode
 		{
-			ID:           "ABCDEFG",
+			ID:           "your-token",
 			From:         "2021-07-19",
 			To:           "2021-07-19",
 			Address:      "10202",
@@ -88,7 +88,7 @@ func TestDiffValidate(t *testing.T) {
 		},
 		// Kind has 1 KindCode
 		{
-			ID:           "ABCDEFG",
+			ID:           "your-token",
 			From:         "2021-07-19",
 			To:           "2021-07-19",
 			Address:      "",
@@ -98,7 +98,7 @@ func TestDiffValidate(t *testing.T) {
 		},
 		// Kind has 2 KindCode
 		{
-			ID:           "ABCDEFG",
+			ID:           "your-token",
 			From:         "2021-07-19",
 			To:           "2021-07-19",
 			Address:      "",
@@ -108,7 +108,7 @@ func TestDiffValidate(t *testing.T) {
 		},
 		// Divide has max value(99999)
 		{
-			ID:           "ABCDEFG",
+			ID:           "your-token",
 			From:         "2021-07-19",
 			To:           "2021-07-19",
 			Address:      "",
@@ -143,7 +143,7 @@ func TestDiffValidateError(t *testing.T) {
 		{
 			// From is empty
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "",
 				To:           "2021-07-19",
 				Address:      "",
@@ -156,7 +156,7 @@ func TestDiffValidateError(t *testing.T) {
 		{
 			// From is invalid format
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07",
 				To:           "2021-07-19",
 				Address:      "",
@@ -168,7 +168,7 @@ func TestDiffValidateError(t *testing.T) {
 		{
 			// TO is empty
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "",
 				Address:      "",
@@ -181,7 +181,7 @@ func TestDiffValidateError(t *testing.T) {
 		{
 			// To is invalid format
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "2021-08",
 				Address:      "",
@@ -194,7 +194,7 @@ func TestDiffValidateError(t *testing.T) {
 		{
 			// To is past than From
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "2021-07-18",
 				Address:      "",
@@ -207,7 +207,7 @@ func TestDiffValidateError(t *testing.T) {
 		{
 			// Address is invalid PrefCode
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "2021-07-19",
 				Address:      "48",
@@ -220,7 +220,7 @@ func TestDiffValidateError(t *testing.T) {
 		{
 			// Address is invalid PrefCode + CityCode
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "2021-07-19",
 				Address:      "00202",
@@ -233,7 +233,7 @@ func TestDiffValidateError(t *testing.T) {
 		{
 			// Address is invalid format
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "2021-07-19",
 				Address:      "TEST1",
@@ -246,7 +246,7 @@ func TestDiffValidateError(t *testing.T) {
 		{
 			// Address is invalid CityCode
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "2021-07-19",
 				Address:      "99TES",
@@ -259,7 +259,7 @@ func TestDiffValidateError(t *testing.T) {
 		{
 			// Kind contains invalid KindCode
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "2021-07-19",
 				Address:      "",
@@ -272,7 +272,7 @@ func TestDiffValidateError(t *testing.T) {
 		{
 			// Divide is less than min value(1)
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "2021-07-19",
 				Address:      "",
@@ -285,7 +285,7 @@ func TestDiffValidateError(t *testing.T) {
 		{
 			// Divide is greater than max value(99999)
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "2021-07-19",
 				Address:      "",
@@ -298,7 +298,7 @@ func TestDiffValidateError(t *testing.T) {
 		{
 			// ResponseType is empty
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "2021-07-19",
 				Address:      "",
@@ -311,7 +311,7 @@ func TestDiffValidateError(t *testing.T) {
 		{
 			// ResponseType is invalid
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "2021-07-19",
 				Address:      "",
@@ -339,7 +339,7 @@ func TestDiffURL(t *testing.T) {
 	tests := []diffURLTest{
 		{
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "2021-07-20",
 				Address:      "",
@@ -347,12 +347,12 @@ func TestDiffURL(t *testing.T) {
 				Divide:       1,
 				ResponseType: RESPONSE_TYPE,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/diff?devide=1&from=2021-07-19&id=ABCDEFG&to=2021-07-20&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/diff?devide=1&from=2021-07-19&id=your-token&to=2021-07-20&type=12",
 		},
 		{
 			// Address is specified
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "2021-07-20",
 				Address:      "10202",
@@ -360,12 +360,12 @@ func TestDiffURL(t *testing.T) {
 				Divide:       1,
 				ResponseType: RESPONSE_TYPE,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/diff?address=10202&devide=1&from=2021-07-19&id=ABCDEFG&to=2021-07-20&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/diff?address=10202&devide=1&from=2021-07-19&id=your-token&to=2021-07-20&type=12",
 		},
 		{
 			// Kind is provided 1 KindCode
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "2021-07-20",
 				Address:      "",
@@ -373,12 +373,12 @@ func TestDiffURL(t *testing.T) {
 				Divide:       1,
 				ResponseType: RESPONSE_TYPE,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/diff?devide=1&from=2021-07-19&id=ABCDEFG&kind=03&to=2021-07-20&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/diff?devide=1&from=2021-07-19&id=your-token&kind=03&to=2021-07-20&type=12",
 		},
 		{
 			// Kind is provided 3 KindCode
 			Diff{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				From:         "2021-07-19",
 				To:           "2021-07-20",
 				Address:      "",
@@ -386,7 +386,7 @@ func TestDiffURL(t *testing.T) {
 				Divide:       1,
 				ResponseType: RESPONSE_TYPE,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/diff?devide=1&from=2021-07-19&id=ABCDEFG&kind=01%2C02%2C03&to=2021-07-20&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/diff?devide=1&from=2021-07-19&id=your-token&kind=01%2C02%2C03&to=2021-07-20&type=12",
 		},
 	}
 

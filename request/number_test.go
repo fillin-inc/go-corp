@@ -17,42 +17,42 @@ type numberURLTest struct {
 }
 
 func TestNewNumber(t *testing.T) {
-	appID := "ABCDEFG"
+	appID := "your-token"
 	nums := []uint64{1234, 5678}
 	history := true
 
 	number := NewNumber(appID, nums, history)
 	if number.ID != appID {
-		t.Error("ID フィールドの値が一致しません。")
+		t.Error("ID field is not match.")
 	}
 
 	if !reflect.DeepEqual(number.Numbers, nums) {
-		t.Error("Numbers フィールドの値が一致しません。")
+		t.Error("Numbers field is not match.")
 	}
 
 	if number.History != history {
-		t.Error("History フィールドの値が一致しません。")
+		t.Error("History field is not match.")
 	}
 }
 
 func TestNumberValidate(t *testing.T) {
 	tests := []Number{
 		{
-			ID:           "ABCDEFG",
+			ID:           "your-token",
 			Numbers:      []uint64{1234},
 			ResponseType: RESPONSE_TYPE,
 			History:      true,
 		},
 		// Number has max slicer count(10)
 		{
-			ID:           "ABCDEFG",
+			ID:           "your-token",
 			Numbers:      []uint64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
 			ResponseType: RESPONSE_TYPE,
 			History:      true,
 		},
 		// History is false
 		{
-			ID:           "ABCDEFG",
+			ID:           "your-token",
 			Numbers:      []uint64{1234},
 			ResponseType: RESPONSE_TYPE,
 			History:      false,
@@ -79,7 +79,7 @@ func TestNumberValidateError(t *testing.T) {
 		},
 		{
 			Number{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				Numbers:      []uint64{},
 				ResponseType: RESPONSE_TYPE,
 				History:      false,
@@ -88,7 +88,7 @@ func TestNumberValidateError(t *testing.T) {
 		},
 		{
 			Number{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				Numbers:      []uint64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11},
 				ResponseType: RESPONSE_TYPE,
 				History:      false,
@@ -97,7 +97,7 @@ func TestNumberValidateError(t *testing.T) {
 		},
 		{
 			Number{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				Numbers:      []uint64{1234},
 				ResponseType: "",
 				History:      false,
@@ -106,7 +106,7 @@ func TestNumberValidateError(t *testing.T) {
 		},
 		{
 			Number{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				Numbers:      []uint64{1234},
 				ResponseType: "01",
 				History:      false,
@@ -131,32 +131,32 @@ func TestURL(t *testing.T) {
 	tests := []numberURLTest{
 		{
 			Number{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				Numbers:      []uint64{1234},
 				ResponseType: RESPONSE_TYPE,
 				History:      true,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/num?history=1&id=ABCDEFG&number=1234&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/num?history=1&id=your-token&number=1234&type=12",
 		},
 		{
 			// Numbers is multiple value
 			Number{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				Numbers:      []uint64{1234, 5678},
 				ResponseType: RESPONSE_TYPE,
 				History:      true,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/num?history=1&id=ABCDEFG&number=1234%2C5678&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/num?history=1&id=your-token&number=1234%2C5678&type=12",
 		},
 		{
 			// History is false
 			Number{
-				ID:           "ABCDEFG",
+				ID:           "your-token",
 				Numbers:      []uint64{1234},
 				ResponseType: RESPONSE_TYPE,
 				History:      false,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/num?history=0&id=ABCDEFG&number=1234&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/num?history=0&id=your-token&number=1234&type=12",
 		},
 	}
 
