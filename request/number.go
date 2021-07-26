@@ -18,7 +18,7 @@ type Number struct {
 	ID string `validate:"required" url:"id"`
 	// 法人番号
 	// 1 〜 10 個の法人番号
-	Numbers []uint64 `validate:"min=1,max=10" url:"number" del:","`
+	Numbers []uint64 `validate:"min=1,max=10,checkdigits" url:"number" del:","`
 	// 応答形式
 	ResponseType string `validate:"required,eq=12" url:"type"`
 	// 変更履歴要否
