@@ -47,10 +47,11 @@ type URLBuilder interface {
 
 func init() {
 	vals := map[string]func(fl validator.FieldLevel) bool{
-		"date":    dateValidation,
-		"gtedate": dateEqualOrGreaterValidation,
-		"address": addressValidation,
-		"kind":    kindValidation,
+		"date":        dateValidation,
+		"gtedate":     dateEqualOrGreaterValidation,
+		"address":     addressValidation,
+		"kind":        kindValidation,
+		"checkdigits": checkdigitsValidation,
 	}
 
 	for name, f := range vals {

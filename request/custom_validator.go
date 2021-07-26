@@ -4,6 +4,7 @@ import (
 	"regexp"
 	"time"
 
+	"github.com/fillin-inc/go-corp/checkdigit"
 	"github.com/go-playground/validator"
 )
 
@@ -107,6 +108,17 @@ func kindValidation(fl validator.FieldLevel) bool {
 	}
 
 	return len(invalid) == 0
+}
+
+func checkdigitsValidation(fl validator.FieldLevel) bool {
+	corpNums := fl.Field().Interface().([]uint64)
+	for _, corpNum := range corpNums {
+		ret, _ := checkdigit.IsValid(corpNum)
+		if !ret {
+			return false
+		}
+	}
+	return true
 }
 
 func containCodes(target string, codes []string) bool {

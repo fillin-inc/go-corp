@@ -39,21 +39,32 @@ func TestNumberValidate(t *testing.T) {
 	tests := []Number{
 		{
 			ID:           "your-token",
-			Numbers:      []uint64{1234},
+			Numbers:      []uint64{5070001032626},
 			ResponseType: RESPONSE_TYPE,
 			History:      true,
 		},
-		// Number has max slicer count(10)
+		// Number has max slice count(10)
 		{
-			ID:           "your-token",
-			Numbers:      []uint64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+			ID: "your-token",
+			Numbers: []uint64{
+				5070001032626,
+				7000020100005,
+				9000020102024,
+				1010401089234,
+				6011001106696,
+				5070001032626,
+				7000020100005,
+				9000020102024,
+				1010401089234,
+				6011001106696,
+			},
 			ResponseType: RESPONSE_TYPE,
 			History:      true,
 		},
 		// History is false
 		{
 			ID:           "your-token",
-			Numbers:      []uint64{1234},
+			Numbers:      []uint64{5070001032626},
 			ResponseType: RESPONSE_TYPE,
 			History:      false,
 		},
@@ -71,7 +82,7 @@ func TestNumberValidateError(t *testing.T) {
 		{
 			Number{
 				ID:           "",
-				Numbers:      []uint64{1234},
+				Numbers:      []uint64{5070001032626},
 				ResponseType: RESPONSE_TYPE,
 				History:      false,
 			},
@@ -88,8 +99,20 @@ func TestNumberValidateError(t *testing.T) {
 		},
 		{
 			Number{
-				ID:           "your-token",
-				Numbers:      []uint64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11},
+				ID: "your-token",
+				Numbers: []uint64{
+					5070001032626,
+					7000020100005,
+					9000020102024,
+					1010401089234,
+					6011001106696,
+					5070001032626,
+					7000020100005,
+					9000020102024,
+					1010401089234,
+					6011001106696,
+					5070001032626,
+				},
 				ResponseType: RESPONSE_TYPE,
 				History:      false,
 			},
@@ -98,7 +121,28 @@ func TestNumberValidateError(t *testing.T) {
 		{
 			Number{
 				ID:           "your-token",
-				Numbers:      []uint64{1234},
+				Numbers:      []uint64{4070001032626},
+				ResponseType: RESPONSE_TYPE,
+				History:      false,
+			},
+			"Key: 'Number.Numbers' Error:Field validation for 'Numbers' failed on the 'checkdigits' tag",
+		},
+		{
+			Number{
+				ID: "your-token",
+				Numbers: []uint64{
+					5070001032626,
+					6000020100005, // invalid checkdigit
+				},
+				ResponseType: RESPONSE_TYPE,
+				History:      false,
+			},
+			"Key: 'Number.Numbers' Error:Field validation for 'Numbers' failed on the 'checkdigits' tag",
+		},
+		{
+			Number{
+				ID:           "your-token",
+				Numbers:      []uint64{5070001032626},
 				ResponseType: "",
 				History:      false,
 			},
@@ -107,7 +151,7 @@ func TestNumberValidateError(t *testing.T) {
 		{
 			Number{
 				ID:           "your-token",
-				Numbers:      []uint64{1234},
+				Numbers:      []uint64{5070001032626},
 				ResponseType: "01",
 				History:      false,
 			},
@@ -132,31 +176,34 @@ func TestURL(t *testing.T) {
 		{
 			Number{
 				ID:           "your-token",
-				Numbers:      []uint64{1234},
+				Numbers:      []uint64{5070001032626},
 				ResponseType: RESPONSE_TYPE,
 				History:      true,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/num?history=1&id=your-token&number=1234&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/num?history=1&id=your-token&number=5070001032626&type=12",
 		},
 		{
 			// Numbers is multiple value
 			Number{
-				ID:           "your-token",
-				Numbers:      []uint64{1234, 5678},
+				ID: "your-token",
+				Numbers: []uint64{
+					5070001032626,
+					7000020100005,
+				},
 				ResponseType: RESPONSE_TYPE,
 				History:      true,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/num?history=1&id=your-token&number=1234%2C5678&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/num?history=1&id=your-token&number=5070001032626%2C7000020100005&type=12",
 		},
 		{
 			// History is false
 			Number{
 				ID:           "your-token",
-				Numbers:      []uint64{1234},
+				Numbers:      []uint64{5070001032626},
 				ResponseType: RESPONSE_TYPE,
 				History:      false,
 			},
-			"https://api.houjin-bangou.nta.go.jp/4/num?history=0&id=your-token&number=1234&type=12",
+			"https://api.houjin-bangou.nta.go.jp/4/num?history=0&id=your-token&number=5070001032626&type=12",
 		},
 	}
 
