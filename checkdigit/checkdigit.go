@@ -1,4 +1,12 @@
-// 法人番号のチェックデジットパッケージです。
+/*
+法人番号のチェックデジットパッケージです。
+
+法人番号は 1 桁目をチェックデジットとして 2 〜 13 桁の数値の整合性チェックを行うことができます。
+こんパッケージではチェックデジットの算出と検証をサポートします。
+
+チェックデジットの詳細については次の URL の PDF をご参照ください。
+https://www.houjin-bangou.nta.go.jp/documents/checkdigit.pd://www.houjin-bangou.nta.go.jp/documents/checkdigit.pdf
+*/
 package checkdigit
 
 import (
