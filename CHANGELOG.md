@@ -1,6 +1,6 @@
 # Change Log
 
-## Latest
+## v0.1.1
 
 * 法人番号検索(`request.Number`)のバリデーションに法人番号のチェックデジット検証を追加
     * `byNumber`
