@@ -3,6 +3,9 @@
 ## Latest
 
 * 法人番号検索(`request.Number`)のバリデーションに法人番号のチェックデジット検証を追加
+    * `byNumber`
+    * `byNumberWithHistory`
+    * `byNumbers`
 
 
 ## v0.1.0
