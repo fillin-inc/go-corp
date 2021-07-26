@@ -207,7 +207,7 @@ func ExampleByNumber() {
 	defer ts.Close()
 
 	// 法人番号 Web-API アプリケーションIDを設定
-	SetAppID("your-tolen")
+	SetAppID("your-token")
 
 	// 株式会社フィルインの法人番号
 	var corpNum uint64 = 5070001032626
