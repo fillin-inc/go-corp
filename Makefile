@@ -8,4 +8,4 @@ lint:
 
 ## benchmark
 benchmark:
-	go test -bench . -benchmem
+	go test -bench . ./request ./checkdigit -benchmem

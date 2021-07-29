@@ -775,6 +775,68 @@ func TestNameURL(t *testing.T) {
 	}
 }
 
+func BenchmarkNewName(b *testing.B) {
+	appID := "your-token"
+	name := "フィルイン"
+	mode := 2
+	target := 1
+	address := ""
+	kind := []string{}
+	divide := 1
+
+	for i := 0; i < b.N; i++ {
+		NewName(appID, name, mode, target, address, kind, false, false, "", "", divide)
+	}
+}
+
+func BenchmarkNameValidate(b *testing.B) {
+	name := Name{
+		ID:           "your-token",
+		Name:         "フィルイン",
+		Mode:         2,
+		Target:       1,
+		Address:      "",
+		Kind:         []string{},
+		Change:       false,
+		Close:        false,
+		From:         "",
+		To:           "",
+		Divide:       1,
+		ResponseType: RESPONSE_TYPE,
+	}
+
+	for i := 0; i < b.N; i++ {
+		err := name.Validate()
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
+func BenchmarkNameURL(b *testing.B) {
+	name := Name{
+		ID:           "your-token",
+		Name:         "フィルイン",
+		Mode:         2,
+		Target:       1,
+		Address:      "",
+		Kind:         []string{},
+		Change:       false,
+		Close:        false,
+		From:         "",
+		To:           "",
+		Divide:       1,
+		ResponseType: RESPONSE_TYPE,
+	}
+
+	for i := 0; i < b.N; i++ {
+		_, err := name.URL()
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
 func ExampleName_URL() {
 	keyword := "フィルイン"
 	mode := 1
