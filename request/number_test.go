@@ -235,7 +235,10 @@ func BenchmarkNumberValidate(b *testing.B) {
 	}
 
 	for i := 0; i < b.N; i++ {
-		number.Validate()
+		err := number.Validate()
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 
@@ -248,7 +251,10 @@ func BenchmarkNumberURL(b *testing.B) {
 	}
 
 	for i := 0; i < b.N; i++ {
-		number.URL()
+		_, err := number.URL()
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 

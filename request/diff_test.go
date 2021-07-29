@@ -424,7 +424,10 @@ func BenchmarkDiffValidate(b *testing.B) {
 	}
 
 	for i := 0; i < b.N; i++ {
-		diff.Validate()
+		err := diff.Validate()
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 
@@ -440,7 +443,10 @@ func BenchmarkDiffURL(b *testing.B) {
 	}
 
 	for i := 0; i < b.N; i++ {
-		diff.URL()
+		_, err := diff.URL()
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 

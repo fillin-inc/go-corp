@@ -791,41 +791,49 @@ func BenchmarkNewName(b *testing.B) {
 
 func BenchmarkNameValidate(b *testing.B) {
 	name := Name{
-		ID:      "your-token",
-		Name:    "フィルイン",
-		Mode:    2,
-		Target:  1,
-		Address: "",
-		Kind:    []string{},
-		Change:  false,
-		Close:   false,
-		From:    "",
-		To:      "",
-		Divide:  1,
+		ID:           "your-token",
+		Name:         "フィルイン",
+		Mode:         2,
+		Target:       1,
+		Address:      "",
+		Kind:         []string{},
+		Change:       false,
+		Close:        false,
+		From:         "",
+		To:           "",
+		Divide:       1,
+		ResponseType: RESPONSE_TYPE,
 	}
 
 	for i := 0; i < b.N; i++ {
-		name.Validate()
+		err := name.Validate()
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 
 func BenchmarkNameURL(b *testing.B) {
 	name := Name{
-		ID:      "your-token",
-		Name:    "フィルイン",
-		Mode:    2,
-		Target:  1,
-		Address: "",
-		Kind:    []string{},
-		Change:  false,
-		Close:   false,
-		From:    "",
-		To:      "",
-		Divide:  1,
+		ID:           "your-token",
+		Name:         "フィルイン",
+		Mode:         2,
+		Target:       1,
+		Address:      "",
+		Kind:         []string{},
+		Change:       false,
+		Close:        false,
+		From:         "",
+		To:           "",
+		Divide:       1,
+		ResponseType: RESPONSE_TYPE,
 	}
 
 	for i := 0; i < b.N; i++ {
-		name.URL()
+		_, err := name.URL()
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 

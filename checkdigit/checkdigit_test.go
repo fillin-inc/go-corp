@@ -168,7 +168,10 @@ func BenchmarkCalculateCheckDigit(b *testing.B) {
 	var corpNum uint64 = 5070001032626
 
 	for i := 0; i < b.N; i++ {
-		CalculateCheckDigit(corpNum)
+		_, err := CalculateCheckDigit(corpNum)
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 
@@ -176,6 +179,9 @@ func BenchmarkIsValid(b *testing.B) {
 	var corpNum uint64 = 5070001032626
 
 	for i := 0; i < b.N; i++ {
-		IsValid(corpNum)
+		_, err := IsValid(corpNum)
+		if err != nil {
+			panic(err)
+		}
 	}
 }
