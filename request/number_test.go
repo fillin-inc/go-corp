@@ -216,6 +216,42 @@ func TestURL(t *testing.T) {
 	}
 }
 
+func BenchmarkNewNumber(b *testing.B) {
+	appID := "your-token"
+	numbers := []uint64{5070001032626}
+	history := false
+
+	for i := 0; i < b.N; i++ {
+		NewNumber(appID, numbers, history)
+	}
+}
+
+func BenchmarkNumberValidate(b *testing.B) {
+	number := Number{
+		ID:           "your-token",
+		Numbers:      []uint64{5070001032626},
+		ResponseType: RESPONSE_TYPE,
+		History:      false,
+	}
+
+	for i := 0; i < b.N; i++ {
+		number.Validate()
+	}
+}
+
+func BenchmarkNumberURL(b *testing.B) {
+	number := Number{
+		ID:           "your-token",
+		Numbers:      []uint64{5070001032626},
+		ResponseType: RESPONSE_TYPE,
+		History:      false,
+	}
+
+	for i := 0; i < b.N; i++ {
+		number.URL()
+	}
+}
+
 func ExampleNumber_URL() {
 	// 株式会社フィルインの法人番号
 	var corpNum uint64 = 5070001032626

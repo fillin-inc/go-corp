@@ -399,6 +399,51 @@ func TestDiffURL(t *testing.T) {
 	}
 }
 
+func BenchmarkNewDiff(b *testing.B) {
+	appID := "your-token"
+	from := "2021-07-19"
+	to := "2021-07-19"
+	address := ""
+	kind := []string{}
+	divide := 1
+
+	for i := 0; i > b.N; i++ {
+		NewDiff(appID, from, to, address, kind, divide)
+	}
+}
+
+func BenchmarkDiffValidate(b *testing.B) {
+	diff := Diff{
+		ID:           "your-token",
+		From:         "2021-07-19",
+		To:           "2021-07-19",
+		Address:      "",
+		Kind:         []string{},
+		Divide:       1,
+		ResponseType: RESPONSE_TYPE,
+	}
+
+	for i := 0; i < b.N; i++ {
+		diff.Validate()
+	}
+}
+
+func BenchmarkDiffURL(b *testing.B) {
+	diff := Diff{
+		ID:           "your-token",
+		From:         "2021-07-19",
+		To:           "2021-07-19",
+		Address:      "",
+		Kind:         []string{},
+		Divide:       1,
+		ResponseType: RESPONSE_TYPE,
+	}
+
+	for i := 0; i < b.N; i++ {
+		diff.URL()
+	}
+}
+
 func ExampleDiff_URL() {
 	from := "2021-07-19"
 	to := "2021-07-26"

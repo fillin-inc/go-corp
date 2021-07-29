@@ -163,3 +163,19 @@ func TestIsValidError(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkCalculateCheckDigit(b *testing.B) {
+	var corpNum uint64 = 5070001032626
+
+	for i := 0; i < b.N; i++ {
+		CalculateCheckDigit(corpNum)
+	}
+}
+
+func BenchmarkIsValid(b *testing.B) {
+	var corpNum uint64 = 5070001032626
+
+	for i := 0; i < b.N; i++ {
+		IsValid(corpNum)
+	}
+}
