@@ -42,6 +42,4 @@ jobs:
       with:
         go-version: 1.16.x
     - uses: actions/checkout@v2
-      with:
-        version: latest
     - run: go test -bench . ./request ./checkdigit -benchmem
