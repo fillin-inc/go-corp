@@ -16,37 +16,37 @@ func TestCalculateCheckDigit(t *testing.T) {
 	tests := []testCalc{
 		// 株式会社フィルイン
 		{
-			uint64(5070001032626),
+			5070001032626,
 			5,
 		},
 		// 群馬県
 		{
-			uint64(7000020100005),
+			7000020100005,
 			7,
 		},
 		// 高崎市
 		{
-			uint64(9000020102024),
+			9000020102024,
 			9,
 		},
 		// グーグル合同会社
 		{
-			uint64(1010401089234),
+			1010401089234,
 			1,
 		},
 		// アマゾンウェブサービスジャパンジャパン株式会社
 		{
-			uint64(6011001106696),
+			6011001106696,
 			6,
 		},
 		// Facebook Technoligies Japan合同会社
 		{
-			uint64(8010403022079),
+			8010403022079,
 			8,
 		},
 		// Apple Japan合同会社
 		{
-			uint64(3011103003992),
+			3011103003992,
 			3,
 		},
 	}
@@ -67,7 +67,7 @@ func TestCalculateCheckDigitError(t *testing.T) {
 	tests := []testErr{
 		// 桁数誤り
 		{
-			uint64(1234),
+			1234,
 			"Corporate Number is 13-digit number. Not 4 Digit.",
 		},
 	}
@@ -146,7 +146,7 @@ func TestIsValidError(t *testing.T) {
 	tests := []testErr{
 		// 桁数誤り
 		{
-			uint64(1234),
+			1234,
 			"Corporate Number is 13-digit number. Not 4 Digit.",
 		},
 	}
