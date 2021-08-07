@@ -1,8 +1,8 @@
 # Change Log
 
-## Latest
+## v0.1.2
 
-* `ByNumbers` を削除し `ByNumber` に統一
+* `ByNumbers` を削除し `ByNumber` に統一(7af1efb)
 
 ## v0.1.1
 
