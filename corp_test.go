@@ -17,32 +17,71 @@ var (
 )
 
 func TestByNumber(t *testing.T) {
-	ts := testServer("./testdata/response/by_number.xml")
-	defer ts.Close()
+	t.Run("simgle corporate number", func(t *testing.T) {
+		ts := testServer("./testdata/response/by_number.xml")
+		defer ts.Close()
 
-	SetAppID("your-token")
-	setTestEnvToRequest(ts)
+		SetAppID("your-token")
+		setTestEnvToRequest(ts)
 
-	res, err := ByNumber(testFillinCorpNum)
-	if err != nil {
-		t.Errorf("error! %v", err)
-	}
+		res, err := ByNumber(testFillinCorpNum)
+		if err != nil {
+			t.Errorf("error! %v", err)
+		}
 
-	if res.Count != 1 {
-		t.Errorf("count valuw is wrong. result:%d expected:%d", res.Count, 1)
-	}
+		if res.Count != 1 {
+			t.Errorf("count value is wrong. result:%d expected:%d", res.Count, 1)
+		}
 
-	if len(res.Corporations) != 1 {
-		t.Errorf("corporations length is wtong. result:%d expected:%d", len(res.Corporations), 1)
-	}
+		if len(res.Corporations) != 1 {
+			t.Errorf("corporations length is wtong. result:%d expected:%d", len(res.Corporations), 1)
+		}
 
-	if res.Corporations[0].CorporateNumber != testFillinCorpNum {
-		t.Errorf("corporation name is wtong. result:%d expected:%d", res.Corporations[0].CorporateNumber, testFillinCorpNum)
-	}
+		if res.Corporations[0].CorporateNumber != testFillinCorpNum {
+			t.Errorf("corporation name is wtong. result:%d expected:%d", res.Corporations[0].CorporateNumber, testFillinCorpNum)
+		}
 
-	if res.Corporations[0].Name != "株式会社フィルイン" {
-		t.Errorf("corporation name is wtong. result:%s expected:%s", res.Corporations[0].Name, "株式会社フィルイン")
-	}
+		if res.Corporations[0].Name != "株式会社フィルイン" {
+			t.Errorf("corporation name is wtong. result:%s expected:%s", res.Corporations[0].Name, "株式会社フィルイン")
+		}
+	})
+
+	t.Run("multiple corporate numbers", func(t *testing.T) {
+		ts := testServer("./testdata/response/by_numbers.xml")
+		defer ts.Close()
+
+		SetAppID("your-token")
+		setTestEnvToRequest(ts)
+
+		res, err := ByNumber(testFillinCorpNum, testGunmaCorpNum)
+		if err != nil {
+			t.Errorf("error! %v", err)
+		}
+
+		if res.Count != 2 {
+			t.Errorf("count value is wrong. result:%d expected:%d", res.Count, 2)
+		}
+
+		if len(res.Corporations) != 2 {
+			t.Errorf("corporations length is wtong. result:%d expected:%d", len(res.Corporations), 2)
+		}
+
+		if res.Corporations[0].CorporateNumber != testFillinCorpNum {
+			t.Errorf("corporation name is wtong. result:%d expected:%d", res.Corporations[0].CorporateNumber, testFillinCorpNum)
+		}
+
+		if res.Corporations[0].Name != "株式会社フィルイン" {
+			t.Errorf("corporation name is wtong. result:%s expected:%s", res.Corporations[0].Name, "株式会社フィルイン")
+		}
+
+		if res.Corporations[1].CorporateNumber != testGunmaCorpNum {
+			t.Errorf("corporation name is wtong. result:%d expected:%d", res.Corporations[1].CorporateNumber, testGunmaCorpNum)
+		}
+
+		if res.Corporations[1].Name != "群馬県" {
+			t.Errorf("corporation name is wtong. result:%s expected:%s", res.Corporations[1].Name, "群馬県")
+		}
+	})
 }
 
 func TestByNumberWithHistory(t *testing.T) {
@@ -75,43 +114,6 @@ func TestByNumberWithHistory(t *testing.T) {
 		if res.Corporations[i].PostCode != postCode {
 			t.Errorf("corporation name is wtong. result:%s expected:%s", corp.PostCode, postCode)
 		}
-	}
-}
-
-func TestByNumbers(t *testing.T) {
-	ts := testServer("./testdata/response/by_numbers.xml")
-	defer ts.Close()
-
-	SetAppID("your-token")
-	setTestEnvToRequest(ts)
-
-	res, err := ByNumbers([]uint64{testFillinCorpNum, testGunmaCorpNum})
-	if err != nil {
-		t.Errorf("error! %v", err)
-	}
-
-	if res.Count != 2 {
-		t.Errorf("count valuw is wrong. result:%d expected:%d", res.Count, 2)
-	}
-
-	if len(res.Corporations) != 2 {
-		t.Errorf("corporations length is wtong. result:%d expected:%d", len(res.Corporations), 2)
-	}
-
-	if res.Corporations[0].CorporateNumber != testFillinCorpNum {
-		t.Errorf("corporation name is wtong. result:%d expected:%d", res.Corporations[0].CorporateNumber, testFillinCorpNum)
-	}
-
-	if res.Corporations[0].Name != "株式会社フィルイン" {
-		t.Errorf("corporation name is wtong. result:%s expected:%s", res.Corporations[0].Name, "株式会社フィルイン")
-	}
-
-	if res.Corporations[1].CorporateNumber != testGunmaCorpNum {
-		t.Errorf("corporation name is wtong. result:%d expected:%d", res.Corporations[1].CorporateNumber, testFillinCorpNum)
-	}
-
-	if res.Corporations[1].Name != "群馬県" {
-		t.Errorf("corporation name is wtong. result:%s expected:%s", res.Corporations[1].Name, "群馬県")
 	}
 }
 
