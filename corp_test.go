@@ -97,7 +97,7 @@ func TestByNumberWithHistory(t *testing.T) {
 	}
 
 	if res.Count != 3 {
-		t.Errorf("count valuw is wrong. result:%d expected:%d", res.Count, 3)
+		t.Errorf("count value is wrong. result:%d expected:%d", res.Count, 3)
 	}
 
 	if len(res.Corporations) != 3 {
@@ -130,7 +130,7 @@ func TestDiffSearch(t *testing.T) {
 	}
 
 	if res.Count != 1 {
-		t.Errorf("count valuw is wrong. result:%d expected:%d", res.Count, 1)
+		t.Errorf("count value is wrong. result:%d expected:%d", res.Count, 1)
 	}
 
 	if len(res.Corporations) != 1 {
@@ -159,7 +159,7 @@ func TestNameSearch(t *testing.T) {
 	}
 
 	if res.Count != 1 {
-		t.Errorf("count valuw is wrong. result:%d expected:%d", res.Count, 1)
+		t.Errorf("count value is wrong. result:%d expected:%d", res.Count, 1)
 	}
 
 	if len(res.Corporations) != 1 {
