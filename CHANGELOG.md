@@ -1,5 +1,9 @@
 # Change Log
 
+## Latest
+
+* `ByNumbers` を削除し `ByNumber` に統一
+
 ## v0.1.1
 
 * 法人番号検索(`request.Number`)のバリデーションに法人番号のチェックデジット検証を追加

@@ -47,8 +47,8 @@ var (
 )
 
 // ByNumber は法人番号を引数に指定することで最新の法人情報を取得できます。
-func ByNumber(number uint64) (Response, error) {
-	builder := request.NewNumber(appID, []uint64{number}, false)
+func ByNumber(numbers ...uint64) (Response, error) {
+	builder := request.NewNumber(appID, numbers, false)
 	return responseByURLBuilder(builder)
 }
 
@@ -58,18 +58,8 @@ ByNumberWithHistory は法人番号を引数に指定することで変更履歴
 「変更履歴」とは, 例えば本店所在地を 1 度変更している法人の場合には
 変更前と変更後の 2 つの法人情報が取得できます。
 */
-func ByNumberWithHistory(number uint64) (Response, error) {
-	builder := request.NewNumber(appID, []uint64{number}, true)
-	return responseByURLBuilder(builder)
-}
-
-/*
-ByNumbers は ByNumber の複数引数対応版です。
-
-Web-API の制限により指定できる法人番号数は最大 10 個です。
-*/
-func ByNumbers(numbers []uint64) (Response, error) {
-	builder := request.NewNumber(appID, numbers, false)
+func ByNumberWithHistory(numbers ...uint64) (Response, error) {
+	builder := request.NewNumber(appID, numbers, true)
 	return responseByURLBuilder(builder)
 }
 
