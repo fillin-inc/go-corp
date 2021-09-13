@@ -39,3 +39,14 @@ func TestDateToTime(t *testing.T) {
 		t.Errorf("Type is wrrong. result:%T expected:%T", d.Time(), time)
 	}
 }
+
+func TestDateToString(t *testing.T) {
+	loc, _ := time.LoadLocation(location)
+	time := time.Date(2021, 7, 16, 0, 0, 0, 0, loc)
+	d := Date(time)
+
+	expected := "2021-07-16"
+	if d.String() != expected {
+		t.Errorf("Unexpeted date string. result:%s expected:%s", d.String(), expected)
+	}
+}

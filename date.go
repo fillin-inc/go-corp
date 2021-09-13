@@ -22,8 +22,7 @@ func (date *Date) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 		return nil
 	}
 
-	loc, _ := time.LoadLocation(location)
-	t, err := time.ParseInLocation(DATE_FORMAT, s, loc)
+	t, err := time.ParseInLocation(DATE_FORMAT, s, currentLocation())
 	if err != nil {
 		return err
 	}
@@ -35,4 +34,13 @@ func (date *Date) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 // convert to time.Time
 func (date Date) Time() time.Time {
 	return time.Time(date)
+}
+
+func (date Date) String() string {
+	return date.Time().In(currentLocation()).Format(DATE_FORMAT)
+}
+
+func currentLocation() *time.Location {
+	loc, _ := time.LoadLocation(location)
+	return loc
 }
