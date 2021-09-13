@@ -1,5 +1,9 @@
 # Change Log
 
+## Latest
+
+* `func (date Date) MarshalXML` を追加
+
 ## v0.1.2
 
 * `ByNumbers` を削除し `ByNumber` に統一(7af1efb)

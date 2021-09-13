@@ -7,27 +7,63 @@ import (
 	"time"
 )
 
-type dateTest struct {
-	Result *Date `xml:"createdAt"`
+type testDateMarshalXML struct {
+	date     Date
+	expected string
 }
 
-func TestUnmarshalDate(t *testing.T) {
-	str := `
-	<?xml version="1.0" encoding="UTF-8"?>
-	<wrapper>
-		<createdAt>2021-07-16</createdAt>
-	</wrapper>
-	`
-	var dt dateTest
-	err := xml.Unmarshal([]byte(str), &dt)
-	if err != nil {
-		t.Error(err)
+type testDateUnmarshalXML struct {
+	str      string
+	expected Date
+}
+
+func TestDateMarshalXML(t *testing.T) {
+	tests := []testDateMarshalXML{
+		{
+			date:     Date(time.Date(2021, 7, 16, 0, 0, 0, 0, currentLocation())),
+			expected: "<Date>2021-07-16</Date>",
+		},
+		{
+			date:     Date(time.Date(2021, 8, 31, 0, 0, 0, 0, currentLocation())),
+			expected: "<Date>2021-08-31</Date>",
+		},
 	}
 
-	loc, _ := time.LoadLocation("Asia/Tokyo")
-	expected := time.Date(2021, 7, 16, 0, 0, 0, 0, loc).Unix()
-	if dt.Result.Time().Unix() != expected {
-		t.Errorf("failed to parse. result:%v, expected:%v", dt.Result.Time().Unix(), expected)
+	for i, test := range tests {
+		b, err := xml.Marshal(test.date)
+		if err != nil {
+			t.Errorf("%d: MarshalXML return error:%v", i, err)
+		}
+
+		str := string(b)
+		if str != test.expected {
+			t.Errorf("%d: failed to MarshalXML. result:%v, expected:%v", i, str, test.expected)
+		}
+	}
+}
+
+func TestDateUnmarshalXML(t *testing.T) {
+	tests := []testDateUnmarshalXML{
+		{
+			str:      "<Date>2021-07-16</Date>",
+			expected: Date(time.Date(2021, 7, 16, 0, 0, 0, 0, currentLocation())),
+		},
+		{
+			str:      "<Date>2021-08-31</Date>",
+			expected: Date(time.Date(2021, 8, 31, 0, 0, 0, 0, currentLocation())),
+		},
+	}
+
+	for i, test := range tests {
+		var d Date
+		err := xml.Unmarshal([]byte(test.str), &d)
+		if err != nil {
+			t.Errorf("%d: UnmarshalXML return error:%v", i, err)
+		}
+
+		if !reflect.DeepEqual(d, test.expected) {
+			t.Errorf("%d: failed to UnmarshalXML. result:%v, expected:%v", i, d, test.expected)
+		}
 	}
 }
 
@@ -37,5 +73,16 @@ func TestDateToTime(t *testing.T) {
 
 	if reflect.TypeOf(d.Time()) != reflect.TypeOf(time) {
 		t.Errorf("Type is wrrong. result:%T expected:%T", d.Time(), time)
+	}
+}
+
+func TestDateToString(t *testing.T) {
+	loc, _ := time.LoadLocation(location)
+	time := time.Date(2021, 7, 16, 0, 0, 0, 0, loc)
+	d := Date(time)
+
+	expected := "2021-07-16"
+	if d.String() != expected {
+		t.Errorf("Unexpeted date string. result:%s expected:%s", d.String(), expected)
 	}
 }
