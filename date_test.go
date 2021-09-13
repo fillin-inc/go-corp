@@ -7,35 +7,63 @@ import (
 	"time"
 )
 
-func TestDateMarshalXML(t *testing.T) {
-	loc, _ := time.LoadLocation(location)
-	d := Date(time.Date(2021, 7, 16, 0, 0, 0, 0, loc))
+type testDateMarshalXML struct {
+	date     Date
+	expected string
+}
 
-	b, err := xml.Marshal(d)
-	if err != nil {
-		t.Error(err)
+type testDateUnmarshalXML struct {
+	str      string
+	expected Date
+}
+
+func TestDateMarshalXML(t *testing.T) {
+	tests := []testDateMarshalXML{
+		{
+			date:     Date(time.Date(2021, 7, 16, 0, 0, 0, 0, currentLocation())),
+			expected: "<Date>2021-07-16</Date>",
+		},
+		{
+			date:     Date(time.Date(2021, 8, 31, 0, 0, 0, 0, currentLocation())),
+			expected: "<Date>2021-08-31</Date>",
+		},
 	}
 
-	str := string(b)
-	expected := "<Date>2021-07-16</Date>"
-	if str != expected {
-		t.Errorf("failed to MarshalXML. result:%v, expected:%v", str, expected)
+	for i, test := range tests {
+		b, err := xml.Marshal(test.date)
+		if err != nil {
+			t.Errorf("%d: MarshalXML return error:%v", i, err)
+		}
+
+		str := string(b)
+		if str != test.expected {
+			t.Errorf("%d: failed to MarshalXML. result:%v, expected:%v", i, str, test.expected)
+		}
 	}
 }
 
 func TestDateUnmarshalXML(t *testing.T) {
-	str := `<Date>2021-07-16</Date>`
-
-	var d Date
-	err := xml.Unmarshal([]byte(str), &d)
-	if err != nil {
-		t.Error(err)
+	tests := []testDateUnmarshalXML{
+		{
+			str:      "<Date>2021-07-16</Date>",
+			expected: Date(time.Date(2021, 7, 16, 0, 0, 0, 0, currentLocation())),
+		},
+		{
+			str:      "<Date>2021-08-31</Date>",
+			expected: Date(time.Date(2021, 8, 31, 0, 0, 0, 0, currentLocation())),
+		},
 	}
 
-	loc, _ := time.LoadLocation(location)
-	expected := time.Date(2021, 7, 16, 0, 0, 0, 0, loc).Unix()
-	if d.Time().Unix() != expected {
-		t.Errorf("failed to UnmarshalXML. result:%v, expected:%v", d.Time().Unix(), expected)
+	for i, test := range tests {
+		var d Date
+		err := xml.Unmarshal([]byte(test.str), &d)
+		if err != nil {
+			t.Errorf("%d: UnmarshalXML return error:%v", i, err)
+		}
+
+		if !reflect.DeepEqual(d, test.expected) {
+			t.Errorf("%d: failed to UnmarshalXML. result:%v, expected:%v", i, d, test.expected)
+		}
 	}
 }
 
