@@ -2,7 +2,10 @@
 
 ## Latest
 
-* `func (date Date) MarshalXML` を追加
+* `Date` に対し構造体→XML, 構造体→JSON, JSON →構造体処理用のメソッドを追加
+    * `MarshalXML`
+    * `MarshalJSON`
+    * `UnmarshalJSON`
 
 ## v0.1.2
 

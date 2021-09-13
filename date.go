@@ -2,6 +2,7 @@ package corp
 
 import (
 	"encoding/xml"
+	"strings"
 	"time"
 )
 
@@ -27,6 +28,21 @@ func (date *Date) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	}
 
 	t, err := time.ParseInLocation(DATE_FORMAT, s, currentLocation())
+	if err != nil {
+		return err
+	}
+
+	*date = Date(t)
+	return nil
+}
+
+func (date Date) MarshalJSON() ([]byte, error) {
+	return []byte(`"` + date.String() + `"`), nil
+}
+
+func (date *Date) UnmarshalJSON(b []byte) error {
+	str := strings.Trim(string(b), `"`)
+	t, err := time.ParseInLocation(DATE_FORMAT, str, currentLocation())
 	if err != nil {
 		return err
 	}
