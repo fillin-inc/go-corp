@@ -7,6 +7,10 @@
 
 ## 使用方法
 
+```sh
+go get github.com/fillin-inc/go-corp
+```
+
 [Go Doc](https://pkg.go.dev/github.com/fillin-inc/go-corp) に Example が用意してあります。
 API の詳細については関連ドキュメントをご確認ください。
 
