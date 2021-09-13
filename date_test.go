@@ -7,10 +7,6 @@ import (
 	"time"
 )
 
-type dateXMLTest struct {
-	Result *Date `xml:"createdAt"`
-}
-
 func TestDateMarshalXML(t *testing.T) {
 	loc, _ := time.LoadLocation(location)
 	d := Date(time.Date(2021, 7, 16, 0, 0, 0, 0, loc))
@@ -28,22 +24,18 @@ func TestDateMarshalXML(t *testing.T) {
 }
 
 func TestDateUnmarshalXML(t *testing.T) {
-	str := `
-	<?xml version="1.0" encoding="UTF-8"?>
-	<wrapper>
-		<createdAt>2021-07-16</createdAt>
-	</wrapper>
-	`
-	var dt dateXMLTest
-	err := xml.Unmarshal([]byte(str), &dt)
+	str := `<Date>2021-07-16</Date>`
+
+	var d Date
+	err := xml.Unmarshal([]byte(str), &d)
 	if err != nil {
 		t.Error(err)
 	}
 
 	loc, _ := time.LoadLocation(location)
 	expected := time.Date(2021, 7, 16, 0, 0, 0, 0, loc).Unix()
-	if dt.Result.Time().Unix() != expected {
-		t.Errorf("failed to parse. result:%v, expected:%v", dt.Result.Time().Unix(), expected)
+	if d.Time().Unix() != expected {
+		t.Errorf("failed to UnmarshalXML. result:%v, expected:%v", d.Time().Unix(), expected)
 	}
 }
 
