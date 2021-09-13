@@ -7,24 +7,24 @@ import (
 	"time"
 )
 
-type dateTest struct {
+type dateXMLTest struct {
 	Result *Date `xml:"createdAt"`
 }
 
-func TestUnmarshalDate(t *testing.T) {
+func TestDateUnmarshalXML(t *testing.T) {
 	str := `
 	<?xml version="1.0" encoding="UTF-8"?>
 	<wrapper>
 		<createdAt>2021-07-16</createdAt>
 	</wrapper>
 	`
-	var dt dateTest
+	var dt dateXMLTest
 	err := xml.Unmarshal([]byte(str), &dt)
 	if err != nil {
 		t.Error(err)
 	}
 
-	loc, _ := time.LoadLocation("Asia/Tokyo")
+	loc, _ := time.LoadLocation(location)
 	expected := time.Date(2021, 7, 16, 0, 0, 0, 0, loc).Unix()
 	if dt.Result.Time().Unix() != expected {
 		t.Errorf("failed to parse. result:%v, expected:%v", dt.Result.Time().Unix(), expected)
