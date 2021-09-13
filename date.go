@@ -11,6 +11,10 @@ var location = "Asia/Tokyo"
 
 type Date time.Time
 
+func (date Date) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	return e.EncodeElement(date.String(), start)
+}
+
 func (date *Date) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	var s string
 	if err := d.DecodeElement(&s, &start); err != nil {

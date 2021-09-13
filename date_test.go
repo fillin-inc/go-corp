@@ -11,6 +11,22 @@ type dateXMLTest struct {
 	Result *Date `xml:"createdAt"`
 }
 
+func TestDateMarshalXML(t *testing.T) {
+	loc, _ := time.LoadLocation(location)
+	d := Date(time.Date(2021, 7, 16, 0, 0, 0, 0, loc))
+
+	b, err := xml.Marshal(d)
+	if err != nil {
+		t.Error(err)
+	}
+
+	str := string(b)
+	expected := "<Date>2021-07-16</Date>"
+	if str != expected {
+		t.Errorf("failed to MarshalXML. result:%v, expected:%v", str, expected)
+	}
+}
+
 func TestDateUnmarshalXML(t *testing.T) {
 	str := `
 	<?xml version="1.0" encoding="UTF-8"?>
