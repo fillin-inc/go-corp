@@ -2,10 +2,10 @@ package corp
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
 	"testing"
 
 	"github.com/fillin-inc/go-corp/request"
@@ -187,7 +187,7 @@ func TestSetAppID(t *testing.T) {
 func testServer(xmlPath string) *httptest.Server {
 	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/xml")
-		data, _ := ioutil.ReadFile(xmlPath)
+		data, _ := os.ReadFile(xmlPath)
 		_, err := w.Write(data)
 		if err != nil {
 			panic(err)
