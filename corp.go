@@ -23,7 +23,7 @@ package corp
 
 import (
 	"encoding/xml"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/fillin-inc/go-corp/request"
@@ -42,7 +42,7 @@ var (
 		}
 		defer res.Body.Close()
 
-		return ioutil.ReadAll(res.Body)
+		return io.ReadAll(res.Body)
 	}
 )
 
