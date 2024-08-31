@@ -23,6 +23,7 @@ package corp
 
 import (
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -144,7 +145,7 @@ func responseByURLBuilder(builder request.URLBuilder) (Response, error) {
 		if len(strs) == 2 {
 			return res, fmt.Errorf("%s:%s", strs[0], strs[1])
 		}
-		return res, fmt.Errorf(str)
+		return res, errors.New(str)
 	}
 	if statusCode == http.StatusForbidden {
 		return res, fmt.Errorf(
