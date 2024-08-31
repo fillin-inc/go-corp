@@ -33,16 +33,17 @@ var (
 	// 法人番号 Web-API アプリケーション ID
 	appID string
 
-	fetch = func(URL string, options interface{}) ([]byte, error) {
+	fetch = func(URL string, options interface{}) (int, []byte, error) {
 		var body []byte
 
 		res, err := http.Get(URL)
 		if err != nil {
-			return body, err
+			return http.StatusInternalServerError, body, err
 		}
 		defer res.Body.Close()
 
-		return io.ReadAll(res.Body)
+		body, err = io.ReadAll(res.Body)
+		return res.StatusCode, body, err
 	}
 )
 
@@ -111,7 +112,7 @@ SetFetch は法人番号 Web-API からデータ取得処理を設定します�
 
 標準では単純な fetch 処理が利用可能です。ログ処理など特別な事情がある場合に利用してください。
 */
-func SetFetch(f func(URL string, options interface{}) ([]byte, error)) {
+func SetFetch(f func(URL string, options interface{}) (int, []byte, error)) {
 	fetch = f
 }
 
@@ -125,9 +126,10 @@ func responseByURLBuilder(builder request.URLBuilder) (Response, error) {
 		return Response{}, err
 	}
 
+	var statusCode int
 	var body []byte
 	var res Response
-	body, err = fetch(u.String(), nil)
+	statusCode, body, err = fetch(u.String(), nil)
 	if err != nil {
 		return Response{}, err
 	}
