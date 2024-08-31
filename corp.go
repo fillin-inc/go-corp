@@ -23,8 +23,10 @@ package corp
 
 import (
 	"encoding/xml"
+	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/fillin-inc/go-corp/request"
 )
@@ -131,7 +133,29 @@ func responseByURLBuilder(builder request.URLBuilder) (Response, error) {
 	var res Response
 	statusCode, body, err = fetch(u.String(), nil)
 	if err != nil {
-		return Response{}, err
+		return res, err
+	}
+
+	// エラー情報を取得した場合
+	// Web-API 仕様書「HTTPステータスコード、エラーコード及びエラーメッセージ一覧」参照
+	if statusCode == http.StatusBadRequest {
+		str := string(body)
+		strs := strings.Split(str, ",")
+		if len(strs) == 2 {
+			return res, fmt.Errorf("%s:%s", strs[0], strs[1])
+		}
+		return res, fmt.Errorf(str)
+	}
+	if statusCode == http.StatusForbidden {
+		return res, fmt.Errorf(
+			"同一アプリケーションIDで一定期間内に多数のアクセスが実行されたため制限されています。",
+		)
+	}
+	if statusCode == http.StatusNotFound {
+		return res, fmt.Errorf("アプリケーションIDが登録されていないまたは無効です。")
+	}
+	if statusCode == http.StatusInternalServerError {
+		return res, fmt.Errorf("法人番号システム Web-API に問題が発生しています。")
 	}
 
 	err = xml.Unmarshal(body, &res)
