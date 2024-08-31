@@ -23,8 +23,11 @@ package corp
 
 import (
 	"encoding/xml"
+	"errors"
+	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/fillin-inc/go-corp/request"
 )
@@ -33,16 +36,17 @@ var (
 	// 法人番号 Web-API アプリケーション ID
 	appID string
 
-	fetch = func(URL string, options interface{}) ([]byte, error) {
+	fetch = func(URL string, options interface{}) (int, []byte, error) {
 		var body []byte
 
 		res, err := http.Get(URL)
 		if err != nil {
-			return body, err
+			return http.StatusInternalServerError, body, err
 		}
 		defer res.Body.Close()
 
-		return io.ReadAll(res.Body)
+		body, err = io.ReadAll(res.Body)
+		return res.StatusCode, body, err
 	}
 )
 
@@ -111,7 +115,7 @@ SetFetch は法人番号 Web-API からデータ取得処理を設定します�
 
 標準では単純な fetch 処理が利用可能です。ログ処理など特別な事情がある場合に利用してください。
 */
-func SetFetch(f func(URL string, options interface{}) ([]byte, error)) {
+func SetFetch(f func(URL string, options interface{}) (int, []byte, error)) {
 	fetch = f
 }
 
@@ -125,11 +129,34 @@ func responseByURLBuilder(builder request.URLBuilder) (Response, error) {
 		return Response{}, err
 	}
 
+	var statusCode int
 	var body []byte
 	var res Response
-	body, err = fetch(u.String(), nil)
+	statusCode, body, err = fetch(u.String(), nil)
 	if err != nil {
-		return Response{}, err
+		return res, err
+	}
+
+	// エラー情報を取得した場合
+	// Web-API 仕様書「HTTPステータスコード、エラーコード及びエラーメッセージ一覧」参照
+	if statusCode == http.StatusBadRequest {
+		str := string(body)
+		strs := strings.Split(str, ",")
+		if len(strs) == 2 {
+			return res, fmt.Errorf("%s:%s", strs[0], strs[1])
+		}
+		return res, errors.New(str)
+	}
+	if statusCode == http.StatusForbidden {
+		return res, fmt.Errorf(
+			"同一アプリケーションIDで一定期間内に多数のアクセスが実行されたため制限されています。",
+		)
+	}
+	if statusCode == http.StatusNotFound {
+		return res, fmt.Errorf("アプリケーションIDが登録されていないまたは無効です。")
+	}
+	if statusCode == http.StatusInternalServerError {
+		return res, fmt.Errorf("法人番号システム Web-API に問題が発生しています。")
 	}
 
 	err = xml.Unmarshal(body, &res)
