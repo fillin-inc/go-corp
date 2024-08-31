@@ -18,7 +18,7 @@ var (
 
 func TestByNumber(t *testing.T) {
 	t.Run("simgle corporate number", func(t *testing.T) {
-		ts := testServer("./testdata/response/by_number.xml")
+		ts := testServer(http.StatusOK, "./testdata/response/by_number.xml")
 		defer ts.Close()
 
 		SetAppID("your-token")
@@ -47,7 +47,7 @@ func TestByNumber(t *testing.T) {
 	})
 
 	t.Run("multiple corporate numbers", func(t *testing.T) {
-		ts := testServer("./testdata/response/by_numbers.xml")
+		ts := testServer(http.StatusOK, "./testdata/response/by_numbers.xml")
 		defer ts.Close()
 
 		SetAppID("your-token")
@@ -85,7 +85,7 @@ func TestByNumber(t *testing.T) {
 }
 
 func TestByNumberWithHistory(t *testing.T) {
-	ts := testServer("./testdata/response/by_number_with_history.xml")
+	ts := testServer(http.StatusOK, "./testdata/response/by_number_with_history.xml")
 	defer ts.Close()
 
 	SetAppID("your-token")
@@ -118,7 +118,7 @@ func TestByNumberWithHistory(t *testing.T) {
 }
 
 func TestDiffSearch(t *testing.T) {
-	ts := testServer("./testdata/response/diff_search.xml")
+	ts := testServer(http.StatusOK, "./testdata/response/diff_search.xml")
 	defer ts.Close()
 
 	SetAppID("your-token")
@@ -147,7 +147,7 @@ func TestDiffSearch(t *testing.T) {
 }
 
 func TestNameSearch(t *testing.T) {
-	ts := testServer("./testdata/response/name_search.xml")
+	ts := testServer(http.StatusOK, "./testdata/response/name_search.xml")
 	defer ts.Close()
 
 	SetAppID("your-token")
@@ -184,8 +184,9 @@ func TestSetAppID(t *testing.T) {
 	}
 }
 
-func testServer(xmlPath string) *httptest.Server {
+func testServer(statusCode int, xmlPath string) *httptest.Server {
 	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(statusCode)
 		w.Header().Set("Content-Type", "application/xml")
 		data, _ := os.ReadFile(xmlPath)
 		_, err := w.Write(data)
@@ -204,7 +205,7 @@ func setTestEnvToRequest(ts *httptest.Server) {
 func ExampleByNumber() {
 	// テスト環境用の設定
 	// 実際に利用する際には不要
-	ts := testServer("./testdata/response/by_number.xml")
+	ts := testServer(http.StatusOK, "./testdata/response/by_number.xml")
 	setTestEnvToRequest(ts)
 	defer ts.Close()
 
@@ -222,7 +223,7 @@ func ExampleByNumber() {
 func ExampleDiffSearch() {
 	// テスト環境用の設定
 	// 実際に利用する際には不要
-	ts := testServer("./testdata/response/diff_search.xml")
+	ts := testServer(http.StatusOK, "./testdata/response/diff_search.xml")
 	setTestEnvToRequest(ts)
 	defer ts.Close()
 
@@ -241,7 +242,7 @@ func ExampleDiffSearch() {
 func ExampleNameSearch() {
 	// テスト環境用の設定
 	// 実際に利用する際には不要
-	ts := testServer("./testdata/response/name_search.xml")
+	ts := testServer(http.StatusOK, "./testdata/response/name_search.xml")
 	setTestEnvToRequest(ts)
 	defer ts.Close()
 
